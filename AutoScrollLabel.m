@@ -93,8 +93,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     self.animationOptions = UIViewAnimationCurveEaseIn;
 	self.showsVerticalScrollIndicator = NO;
 	self.showsHorizontalScrollIndicator = NO;
-	self.userInteractionEnabled = NO;
     self.scrollEnabled = NO;
+    self.userInteractionEnabled = NO;
     self.backgroundColor = [UIColor clearColor];
     self.clipsToBounds = YES;
 }
@@ -204,7 +204,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
     // animate the scrolling
     NSTimeInterval duration = labelWidth / self.scrollSpeed;
-    [UIView animateWithDuration:duration delay:0 options:self.animationOptions animations:^{
+    [UIView animateWithDuration:duration delay:0 options:self.animationOptions | UIViewAnimationOptionAllowUserInteraction animations:^{
         // adjust offset
         self.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + _labelSpacing, 0) : CGPointZero);
     } completion:^(BOOL finished) {
@@ -261,11 +261,12 @@ static void each_object(NSArray *objects, void (^block)(id object))
     {
 		// Hide the other labels out of view
 		each_object(self.labels, ^(UILabel *label) {
-            label.hidden = YES;
+            if (self.mainLabel != label)
+                label.hidden = YES;
 		});
         
         // adjust the scroll view
-        self.contentSize = self.mainLabel.bounds.size;
+        self.contentSize = self.bounds.size;
         
 		// adjust label alignment
         switch (self.textAlignment)
