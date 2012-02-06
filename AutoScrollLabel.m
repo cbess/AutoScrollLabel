@@ -35,13 +35,17 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @end
 
 @implementation AutoScrollLabel
-@synthesize scrollDirection;
-@synthesize pauseInterval;
-@synthesize labelSpacing;
-@synthesize scrollSpeed;
+@synthesize scrollDirection = _scrollDirection;
+@synthesize pauseInterval = _pauseInterval;
+@synthesize labelSpacing = _labelSpacing;
+@synthesize scrollSpeed = _scrollSpeed;
 @synthesize text;
 @synthesize labels;
 @synthesize mainLabel;
+@synthesize animationOptions;
+@synthesize shadowColor;
+@synthesize shadowOffset;
+@synthesize textAlignment;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -81,13 +85,18 @@ static void each_object(NSArray *objects, void (^block)(id object))
     [labelSet release];
     
     // default values
-	scrollDirection = AutoScrollDirectionLeft;
-	scrollSpeed = kDefaultPixelsPerSecond;
-	pauseInterval = kDefaultPauseTime;
-	labelSpacing = kDefaultLabelBufferSpace;
+	_scrollDirection = AutoScrollDirectionLeft;
+	_scrollSpeed = kDefaultPixelsPerSecond;
+	_pauseInterval = kDefaultPauseTime;
+	_labelSpacing = kDefaultLabelBufferSpace;
+    self.textAlignment = UITextAlignmentLeft;
+    self.animationOptions = UIViewAnimationCurveEaseIn;
 	self.showsVerticalScrollIndicator = NO;
 	self.showsHorizontalScrollIndicator = NO;
 	self.userInteractionEnabled = NO;
+    self.scrollEnabled = NO;
+    self.backgroundColor = [UIColor clearColor];
+    self.clipsToBounds = YES;
 }
 
 - (void)dealloc 
@@ -96,89 +105,10 @@ static void each_object(NSArray *objects, void (^block)(id object))
     [super dealloc];
 }
 
+#pragma mark - Properties
 - (UILabel *)mainLabel
 {
     return [self.labels objectAtIndex:0];
-}
-
-- (void)scrollLabels
-{
-	_isScrolling = YES;
-    BOOL doScrollLeft = (scrollDirection == AutoScrollDirectionLeft);
-    CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
-	
-    self.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + labelSpacing, 0));
-
-    // animate the scrolling
-    NSTimeInterval duration = labelWidth / (float)scrollSpeed;
-    [UIView animateWithDuration:duration delay:0 options:UIViewAnimationCurveEaseIn animations:^{
-        // adjust offset
-        self.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + labelSpacing, 0) : CGPointZero);
-    } completion:^(BOOL finished) {
-        _isScrolling = NO;
-        
-        // setup pause delay/loop
-        if (finished && CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds))
-        {
-            [self performSelector:@selector(scrollLabels) 
-                       withObject:nil
-                       afterDelay:pauseInterval];
-        }
-    }];
-}
-
-- (void)refreshLabels
-{
-	__block float offset = 0;
-	
-    // calculate the label size
-    CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
-                                       constrainedToSize:CGSizeMake(9999, CGRectGetHeight(self.bounds))
-                                           lineBreakMode:UILineBreakModeClip];
-    
-    each_object(self.labels, ^(UILabel *label) {
-        CGRect frame;
-        frame = label.frame;
-        frame.origin.x = offset;
-        frame.size.height = CGRectGetHeight(self.bounds);
-        frame.size.width = labelSize.width;
-        label.frame = frame;
-        
-        // Recenter label vertically within the scroll view
-        label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
-        
-        offset += CGRectGetWidth(label.bounds) + labelSpacing; 
-    });
-
-	CGSize size;
-	size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + labelSpacing;
-	size.height = CGRectGetHeight(self.bounds);
-	self.contentSize = size;
-	self.contentOffset = CGPointZero;
-    
-	// If the label is bigger than the space allocated, then it should scroll
-	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds))
-    {
-        each_object(self.labels, ^(UILabel *label) {
-            label.hidden = NO;
-		});
-        
-		[self scrollLabels];
-	}
-    else
-    {
-		// Hide the other labels out of view
-		each_object(self.labels, ^(UILabel *label) {
-            label.hidden = YES;
-		});
-        
-        // adjust the scroll view
-        self.contentSize = self.mainLabel.bounds.size;
-        
-		// Center this label
-		self.mainLabel.center = CGPointMake(self.center.x, CGRectGetMidY(self.bounds));
-        self.mainLabel.hidden = NO;
-	}
 }
 
 - (void)setText:(NSString *)theText
@@ -227,13 +157,133 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setScrollSpeed:(float)speed
 {
-	scrollSpeed = speed;
+	_scrollSpeed = speed;
 	[self refreshLabels];
 }
 
 - (void)setScrollDirection:(AutoScrollDirection)direction
 {
-	scrollDirection = direction;
+	_scrollDirection = direction;
 	[self refreshLabels];
+}
+
+- (void)setShadowColor:(UIColor *)color
+{
+    each_object(self.labels, ^(UILabel *label) {
+        label.shadowColor = color;
+    });
+}
+
+- (UIColor *)shadowColor
+{
+    return self.mainLabel.shadowColor;
+}
+
+- (void)setShadowOffset:(CGSize)offset
+{
+    each_object(self.labels, ^(UILabel *label) {
+        label.shadowOffset = offset;
+    });
+}
+
+- (CGSize)shadowOffset
+{
+    return self.mainLabel.shadowOffset;
+}
+
+#pragma mark - Misc
+- (void)scrollLabels
+{
+    CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
+	if (labelWidth <= CGRectGetWidth(self.bounds))
+        return;
+    
+	_isScrolling = YES;
+    BOOL doScrollLeft = (self.scrollDirection == AutoScrollDirectionLeft);   
+    self.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
+
+    // animate the scrolling
+    NSTimeInterval duration = labelWidth / self.scrollSpeed;
+    [UIView animateWithDuration:duration delay:0 options:self.animationOptions animations:^{
+        // adjust offset
+        self.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + _labelSpacing, 0) : CGPointZero);
+    } completion:^(BOOL finished) {
+        _isScrolling = NO;
+        
+        // setup pause delay/loop
+        if (finished)
+        {
+            [self performSelector:@selector(scrollLabels) 
+                       withObject:nil
+                       afterDelay:self.pauseInterval];
+        }
+    }];
+}
+
+- (void)refreshLabels
+{
+	__block float offset = 0;
+	
+    // calculate the label size
+    CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
+                                       constrainedToSize:CGSizeMake(9999, CGRectGetHeight(self.bounds))
+                                           lineBreakMode:UILineBreakModeClip];
+    
+    each_object(self.labels, ^(UILabel *label) {
+        CGRect frame = label.frame;
+        frame.origin.x = offset;
+        frame.size.height = CGRectGetHeight(self.bounds);
+        frame.size.width = labelSize.width;
+        label.frame = frame;
+        
+        // Recenter label vertically within the scroll view
+        label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
+        
+        offset += CGRectGetWidth(label.bounds) + _labelSpacing; 
+    });
+
+	CGSize size;
+	size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + _labelSpacing;
+	size.height = CGRectGetHeight(self.bounds);
+	self.contentSize = size;
+	self.contentOffset = CGPointZero;
+    
+	// If the label is bigger than the space allocated, then it should scroll
+	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds))
+    {
+        each_object(self.labels, ^(UILabel *label) {
+            label.hidden = NO;
+		});
+        
+		[self scrollLabels];
+	}
+    else
+    {
+		// Hide the other labels out of view
+		each_object(self.labels, ^(UILabel *label) {
+            label.hidden = YES;
+		});
+        
+        // adjust the scroll view
+        self.contentSize = self.mainLabel.bounds.size;
+        
+		// adjust label alignment
+        switch (self.textAlignment)
+        {
+            case UITextAlignmentCenter:
+                self.mainLabel.center = CGPointMake(self.center.x, CGRectGetMidY(self.bounds));
+                break;
+                
+            case UITextAlignmentLeft:
+                self.mainLabel.frame = self.bounds;
+                break;
+                
+            default:
+                //TODO: implement right alignment support
+                break;
+        }
+        
+        self.mainLabel.hidden = NO;
+	}
 }
 @end

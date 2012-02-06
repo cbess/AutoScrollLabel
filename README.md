@@ -11,3 +11,4 @@ Usage:
     autoScrollLabel.labelSpacing = 35; // distance between start and end labels
     autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
     autoScrollLabel.scrollSpeed = 30; // pixels per second
+    autoScrollLabel.textAlignment = UITextAlignmentCenter; // centers text when no auto-scrolling is applied

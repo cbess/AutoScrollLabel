@@ -23,10 +23,14 @@ typedef enum  {
 @property(nonatomic) float scrollSpeed; // pixels per second
 @property(nonatomic) NSTimeInterval pauseInterval;
 @property(nonatomic) NSInteger labelSpacing; // pixels
+@property (nonatomic, assign) UIViewAnimationOptions animationOptions;
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
 @property(nonatomic, retain) UIColor *textColor;
 @property(nonatomic, retain) UIFont *font;
+@property (nonatomic, retain) UIColor *shadowColor;
+@property (nonatomic) CGSize shadowOffset;
+@property (nonatomic, assign) UITextAlignment textAlignment; // only applies when not auto-scrolling
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
