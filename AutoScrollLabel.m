@@ -192,7 +192,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 }
 
 #pragma mark - Misc
-- (void)scrollLabels
+- (void)scrollLabelIfNeeded
 {
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 	if (labelWidth <= CGRectGetWidth(self.bounds))
@@ -213,7 +213,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // setup pause delay/loop
         if (finished)
         {
-            [self performSelector:@selector(scrollLabels) 
+            [self performSelector:@selector(scrollLabelIfNeeded) 
                        withObject:nil
                        afterDelay:self.pauseInterval];
         }
@@ -255,7 +255,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
             label.hidden = NO;
 		});
         
-		[self scrollLabels];
+		[self scrollLabelIfNeeded];
 	}
     else
     {

@@ -41,5 +41,5 @@ typedef enum  {
 /**
  * Initiates auto-scroll if the labels width exceeds the bounds of the scrollview.
  */
-- (void)scrollLabels;
+- (void)scrollLabelIfNeeded;
 @end
