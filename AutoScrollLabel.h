@@ -3,40 +3,39 @@
 //  AutoScrollLabel
 //
 //  Created by Brian Stormont on 10/21/09.
+//  Updated/Modernized by Christopher Bess on 2/5/12
+//
 //  Copyright 2009 Stormy Productions. All rights reserved.
 //
+//  Originally from: http://blog.stormyprods.com/2009/10/simple-scrolling-uilabel-for-iphone.html
 //  Permission is granted to use this code free of charge for any project.
 //
 
 #import <UIKit/UIKit.h>
 
-#define NUM_LABELS 2
+typedef enum  {
+	AutoScrollDirectionRight,
+	AutoScrollDirectionLeft,
+} AutoScrollDirection;
 
-enum AutoScrollDirection {
-	AUTOSCROLL_SCROLL_RIGHT,
-	AUTOSCROLL_SCROLL_LEFT,
-};
-
-@interface AutoScrollLabel : UIScrollView <UIScrollViewDelegate>{
-	UILabel *label[NUM_LABELS];
-	enum AutoScrollDirection scrollDirection;
-	float scrollSpeed;
-	NSTimeInterval pauseInterval;
-	int bufferSpaceBetweenLabels;
-	bool isScrolling;
-}
-@property(nonatomic) enum AutoScrollDirection scrollDirection;
-@property(nonatomic) float scrollSpeed;
+@interface AutoScrollLabel : UIScrollView <UIScrollViewDelegate>
+@property(nonatomic) AutoScrollDirection scrollDirection;
+@property(nonatomic) float scrollSpeed; // pixels per second
 @property(nonatomic) NSTimeInterval pauseInterval;
-@property(nonatomic) int bufferSpaceBetweenLabels;
-// normal UILabel properties
-@property(nonatomic,retain) UIColor *textColor;
+@property(nonatomic) NSInteger labelSpacing; // pixels
+// UILabel properties
+@property (nonatomic, copy) NSString *text;
+@property(nonatomic, retain) UIColor *textColor;
 @property(nonatomic, retain) UIFont *font;
 
-- (void) readjustLabels;
-- (void) setText: (NSString *) text;
-- (NSString *) text;
-- (void) scroll;
+/**
+ * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
+ * @discussion Uses [scrollLabels] internally, if needed.
+ */
+- (void)refreshLabels;
 
-
+/**
+ * Initiates auto-scroll if the labels width exceeds the bounds of the scrollview.
+ */
+- (void)scrollLabels;
 @end
