@@ -12,6 +12,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ARCMacros.h"
 
 typedef enum  {
 	AutoScrollDirectionRight,
@@ -19,16 +20,16 @@ typedef enum  {
 } AutoScrollDirection;
 
 @interface AutoScrollLabel : UIScrollView <UIScrollViewDelegate>
-@property(nonatomic) AutoScrollDirection scrollDirection;
-@property(nonatomic) float scrollSpeed; // pixels per second
-@property(nonatomic) NSTimeInterval pauseInterval;
-@property(nonatomic) NSInteger labelSpacing; // pixels
+@property (nonatomic) AutoScrollDirection scrollDirection;
+@property (nonatomic) float scrollSpeed; // pixels per second
+@property (nonatomic) NSTimeInterval pauseInterval;
+@property (nonatomic) NSInteger labelSpacing; // pixels
 @property (nonatomic, assign) UIViewAnimationOptions animationOptions;
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
-@property(nonatomic, retain) UIColor *textColor;
-@property(nonatomic, retain) UIFont *font;
-@property (nonatomic, retain) UIColor *shadowColor;
+@property (nonatomic, asl_retain) UIColor *textColor;
+@property (nonatomic, asl_retain) UIFont *font;
+@property (nonatomic, asl_retain) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic, assign) UITextAlignment textAlignment; // only applies when not auto-scrolling
 

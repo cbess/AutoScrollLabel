@@ -13,9 +13,11 @@
 #if HAS_ARC
 #define NSRelease(OBJ) ;
 #define NO_ARC(BLOCK_NO_ARC) ;
+#define asl_retain strong
 #else
 #define NSRelease(OBJ) [OBJ release];
 #define NO_ARC(BLOCK_NO_ARC) BLOCK_NO_ARC
+#define asl_retain retain
 #endif
 
 #endif
