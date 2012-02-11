@@ -1,12 +1,12 @@
 //
-//  ARCMacros.h
+//  AutoScrollLabel_Macros.h
 //
 //  Created by Christopher Bess on 1/2/12.
 //  Copyright (c) 2012 Qu. All rights reserved.
 //
 
-#ifndef ARCMacros_h
-#define ARCMacros_h
+#ifndef AutoScrollLabel_Macros_h
+#define AutoScrollLabel_Macros_h
 
 #define HAS_ARC __has_feature(objc_arc)
 
