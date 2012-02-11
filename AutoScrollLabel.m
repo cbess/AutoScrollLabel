@@ -11,7 +11,6 @@
 //
 
 #import "AutoScrollLabel.h"
-#import "ARCMacros.h"
 
 #define kLabelCount 2
 #define kDefaultLabelBufferSpace 20   // pixel buffer space between scrolling label
@@ -31,7 +30,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	bool _isScrolling;
 }
 @property (nonatomic, retain) NSArray *labels;
-@property (nonatomic, readonly) UILabel *mainLabel;
+@property (strong, nonatomic, readonly) UILabel *mainLabel;
 - (void)commonInit;
 @end
 
