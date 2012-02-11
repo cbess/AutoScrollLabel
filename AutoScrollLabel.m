@@ -11,6 +11,7 @@
 //
 
 #import "AutoScrollLabel.h"
+#import "ARCMacros.h"
 
 #define kLabelCount 2
 #define kDefaultLabelBufferSpace 20   // pixel buffer space between scrolling label
@@ -78,11 +79,11 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // store labels
 		[self addSubview:label];
         [labelSet addObject:label];
-        [label release];
+        NSRelease(label)
 	}
 	
     self.labels = [labelSet.allObjects copy];
-    [labelSet release];
+    NSRelease(labelSet)
     
     // default values
 	_scrollDirection = AutoScrollDirectionLeft;
@@ -102,7 +103,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)dealloc 
 {
     self.labels = nil;
-    [super dealloc];
+    NO_ARC([super dealloc]);
 }
 
 #pragma mark - Properties
