@@ -30,7 +30,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	bool _isScrolling;
 }
 @property (nonatomic, retain) NSArray *labels;
-@property (strong, nonatomic, readonly) UILabel *mainLabel;
+@property (asl_retain, nonatomic, readonly) UILabel *mainLabel;
 - (void)commonInit;
 @end
 
