@@ -32,6 +32,7 @@ typedef enum  {
 @property (nonatomic, asl_retain) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic, assign) UITextAlignment textAlignment; // only applies when not auto-scrolling
+@property (nonatomic) BOOL isScrolling;
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
