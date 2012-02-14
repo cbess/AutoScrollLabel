@@ -8,6 +8,7 @@
 //  Copyright 2009 Stormy Productions. All rights reserved.
 //
 //  Originally from: http://blog.stormyprods.com/2009/10/simple-scrolling-uilabel-for-iphone.html
+//
 //  Permission is granted to use this code free of charge for any project.
 //
 
@@ -24,14 +25,23 @@ typedef enum  {
 @property (nonatomic) float scrollSpeed; // pixels per second
 @property (nonatomic) NSTimeInterval pauseInterval;
 @property (nonatomic) NSInteger labelSpacing; // pixels
-@property (nonatomic, assign) UIViewAnimationOptions animationOptions;
+/**
+ * The animation options used when scrolling the UILabels.
+ * @discussion UIViewAnimationOptionAllowUserInteraction is always applied to the animations.
+ */
+@property (nonatomic) UIViewAnimationOptions animationOptions;
+/**
+ * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
+ */
+@property (nonatomic, readonly) BOOL scrolling;
+
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, asl_retain) UIColor *textColor;
 @property (nonatomic, asl_retain) UIFont *font;
 @property (nonatomic, asl_retain) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
-@property (nonatomic, assign) UITextAlignment textAlignment; // only applies when not auto-scrolling
+@property (nonatomic) UITextAlignment textAlignment; // only applies when not auto-scrolling
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.

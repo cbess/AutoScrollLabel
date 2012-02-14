@@ -46,6 +46,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize shadowColor;
 @synthesize shadowOffset;
 @synthesize textAlignment;
+@synthesize scrolling = _isScrolling;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
