@@ -27,7 +27,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 @interface AutoScrollLabel ()
 {
-	bool _isScrolling;
+	BOOL _isScrolling;
 }
 @property (nonatomic, retain) NSArray *labels;
 @property (asl_retain, nonatomic, readonly) UILabel *mainLabel;
