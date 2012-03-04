@@ -202,7 +202,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	_isScrolling = YES;
     BOOL doScrollLeft = (self.scrollDirection == AutoScrollDirectionLeft);   
     self.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
-
+    
     // animate the scrolling
     NSTimeInterval duration = labelWidth / self.scrollSpeed;
     [UIView animateWithDuration:duration delay:0 options:self.animationOptions | UIViewAnimationOptionAllowUserInteraction animations:^{
@@ -242,7 +242,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         
         offset += CGRectGetWidth(label.bounds) + _labelSpacing; 
     });
-
+    
 	CGSize size;
 	size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + _labelSpacing;
 	size.height = CGRectGetHeight(self.bounds);
@@ -260,32 +260,16 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	}
     else
     {
-		// Hide the other labels out of view
+		// Hide the other labels
 		each_object(self.labels, ^(UILabel *label) {
-            if (self.mainLabel != label)
-                label.hidden = YES;
+            label.hidden = (self.mainLabel != label);
 		});
         
-        // adjust the scroll view
+        // adjust the scroll view and main label
         self.contentSize = self.bounds.size;
-        
-		// adjust label alignment
-        switch (self.textAlignment)
-        {
-            case UITextAlignmentCenter:
-                self.mainLabel.center = CGPointMake(self.center.x, CGRectGetMidY(self.bounds));
-                break;
-                
-            case UITextAlignmentLeft:
-                self.mainLabel.frame = self.bounds;
-                break;
-                
-            default:
-                //TODO: implement right alignment support
-                break;
-        }
-        
+        self.mainLabel.frame = self.bounds;
         self.mainLabel.hidden = NO;
+        self.mainLabel.textAlignment = self.textAlignment;
 	}
 }
 @end

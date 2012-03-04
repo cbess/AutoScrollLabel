@@ -13,7 +13,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AutoScrollLabel_Macros.h"
 
 typedef enum  {
 	AutoScrollDirectionRight,
