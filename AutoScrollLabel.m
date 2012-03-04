@@ -25,6 +25,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
     }];
 }
 
+// shortcut to change each label attribute value
+#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(UILabel *label) { label.ATTR = VALUE; });
+
 @interface AutoScrollLabel ()
 {
 	BOOL _isScrolling;
@@ -47,6 +50,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize shadowOffset;
 @synthesize textAlignment;
 @synthesize scrolling = _isScrolling;
+@synthesize fadeScrollEdges;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -118,9 +122,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	if ([theText isEqualToString:self.text])
 		return;
 	
-    each_object(self.labels, ^(UILabel *label) {
-        label.text = theText;
-	});
+    EACH_LABEL(text, theText)
     
 	[self refreshLabels];
 }
@@ -132,9 +134,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setTextColor:(UIColor *)color
 {
-    each_object(self.labels, ^(UILabel *label) {
-        label.textColor = color;
-	});
+    EACH_LABEL(textColor, color)
 }
 
 - (UIColor *)textColor
@@ -144,9 +144,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setFont:(UIFont *)font
 {
-    each_object(self.labels, ^(UILabel *label) {
-		label.font = font;
-	});
+    EACH_LABEL(font, font)
     
 	[self refreshLabels];
 }
@@ -170,9 +168,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setShadowColor:(UIColor *)color
 {
-    each_object(self.labels, ^(UILabel *label) {
-        label.shadowColor = color;
-    });
+    EACH_LABEL(shadowColor, color)
 }
 
 - (UIColor *)shadowColor
@@ -182,9 +178,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setShadowOffset:(CGSize)offset
 {
-    each_object(self.labels, ^(UILabel *label) {
-        label.shadowOffset = offset;
-    });
+    EACH_LABEL(shadowOffset, offset)
 }
 
 - (CGSize)shadowOffset
@@ -252,18 +246,14 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	// If the label is bigger than the space allocated, then it should scroll
 	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds))
     {
-        each_object(self.labels, ^(UILabel *label) {
-            label.hidden = NO;
-		});
+        EACH_LABEL(hidden, NO)
         
 		[self scrollLabelIfNeeded];
 	}
     else
     {
 		// Hide the other labels
-		each_object(self.labels, ^(UILabel *label) {
-            label.hidden = (self.mainLabel != label);
-		});
+        EACH_LABEL(hidden, (self.mainLabel != label))
         
         // adjust the scroll view and main label
         self.contentSize = self.bounds.size;

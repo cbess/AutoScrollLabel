@@ -44,7 +44,7 @@ typedef enum  {
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
- * @discussion Uses [scrollLabels] internally, if needed.
+ * @discussion Uses [scrollLabelIfNeeded] internally, if needed.
  */
 - (void)refreshLabels;
 
