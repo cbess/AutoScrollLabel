@@ -50,7 +50,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize shadowOffset;
 @synthesize textAlignment;
 @synthesize scrolling = _isScrolling;
-@synthesize fadeScrollEdges;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
