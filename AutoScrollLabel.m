@@ -198,7 +198,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     
     // animate the scrolling
     NSTimeInterval duration = labelWidth / self.scrollSpeed;
-    [UIView animateWithDuration:duration delay:0 options:self.animationOptions | UIViewAnimationOptionAllowUserInteraction animations:^{
+    [UIView animateWithDuration:duration delay:self.pauseInterval options:self.animationOptions | UIViewAnimationOptionAllowUserInteraction animations:^{
         // adjust offset
         self.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + _labelSpacing, 0) : CGPointZero);
     } completion:^(BOOL finished) {
@@ -208,8 +208,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         if (finished)
         {
             [self performSelector:@selector(scrollLabelIfNeeded) 
-                       withObject:nil
-                       afterDelay:self.pauseInterval];
+                       withObject:nil];
         }
     }];
 }
