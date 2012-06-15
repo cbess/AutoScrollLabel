@@ -33,7 +33,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	BOOL _isScrolling;
 }
 @property (nonatomic, retain) NSArray *labels;
-@property (asl_retain, nonatomic, readonly) UILabel *mainLabel;
+@property (strong, nonatomic, readonly) UILabel *mainLabel;
 - (void)commonInit;
 @end
 
@@ -82,11 +82,17 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // store labels
 		[self addSubview:label];
         [labelSet addObject:label];
-        NSRelease(label)
+        
+        #if ! __has_feature(objc_arc)
+        [label release];
+        #endif
 	}
 	
     self.labels = [labelSet.allObjects copy];
-    NSRelease(labelSet)
+    
+    #if ! __has_feature(objc_arc)
+    [labelSet release];
+    #endif
     
     // default values
 	_scrollDirection = AutoScrollDirectionLeft;
