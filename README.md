@@ -1,6 +1,6 @@
 ##AutoScrollLabel
 
-Provides auto scrolling for text that may be clipped by the view. iOS 4.0 and greater, works with ARC and non-ARC projects.
+Provides auto scrolling for text that may be clipped by the view. iOS 4.3 and greater, works with ARC and non-ARC projects.
 
 [http://blog.stormyprods.com/2009/10/more-details-on-autoscrolllabel-usage.html](http://blog.stormyprods.com/2009/10/more-details-on-autoscrolllabel-usage.html) - Old, but still relevant example usage.
 
