@@ -13,7 +13,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AutoScrollLabel_Macros.h"
 
 typedef enum  {
 	AutoScrollDirectionRight,
@@ -37,9 +36,9 @@ typedef enum  {
 
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
-@property (nonatomic, asl_retain) UIColor *textColor;
-@property (nonatomic, asl_retain) UIFont *font;
-@property (nonatomic, asl_retain) UIColor *shadowColor;
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) UITextAlignment textAlignment; // only applies when not auto-scrolling
 

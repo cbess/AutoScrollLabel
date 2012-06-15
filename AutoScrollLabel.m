@@ -106,7 +106,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)dealloc 
 {
     self.labels = nil;
-    NO_ARC([super dealloc]);
+    #if ! __has_feature(objc_arc)
+    [super dealloc];
+    #endif
 }
 
 #pragma mark - Properties
