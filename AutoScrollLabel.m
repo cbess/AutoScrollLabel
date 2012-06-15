@@ -13,7 +13,8 @@
 #import "AutoScrollLabel.h"
 
 #define kLabelCount 2
-#define kDefaultLabelBufferSpace 20   // pixel buffer space between scrolling label
+// pixel buffer space between scrolling label
+#define kDefaultLabelBufferSpace 20
 #define kDefaultPixelsPerSecond 30
 #define kDefaultPauseTime 1.5f
 
@@ -215,8 +216,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // setup pause delay/loop
         if (finished)
         {
-            [self performSelector:@selector(scrollLabelIfNeeded) 
-                       withObject:nil];
+            [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil];
         }
     }];
 }
@@ -227,7 +227,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	
     // calculate the label size
     CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
-                                       constrainedToSize:CGSizeMake(9999, CGRectGetHeight(self.bounds))
+                                       constrainedToSize:CGSizeMake(INT16_MAX, CGRectGetHeight(self.bounds))
                                            lineBreakMode:UILineBreakModeClip];
     
     each_object(self.labels, ^(UILabel *label) {
