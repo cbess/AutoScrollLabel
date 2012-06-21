@@ -101,7 +101,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	_pauseInterval = kDefaultPauseTime;
 	_labelSpacing = kDefaultLabelBufferSpace;
     self.textAlignment = UITextAlignmentLeft;
-    self.animationOptions = UIViewAnimationCurveEaseIn;
+    self.animationOptions = UIViewAnimationOptionCurveEaseIn;
 	self.showsVerticalScrollIndicator = NO;
 	self.showsHorizontalScrollIndicator = NO;
     self.scrollEnabled = NO;
