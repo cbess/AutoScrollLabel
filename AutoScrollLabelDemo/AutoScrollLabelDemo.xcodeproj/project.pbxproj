@@ -1,0 +1,299 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1E6EE5BD15991EDE00F94499 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6EE5BC15991EDE00F94499 /* UIKit.framework */; };
+		1E6EE5BF15991EDE00F94499 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6EE5BE15991EDE00F94499 /* Foundation.framework */; };
+		1E6EE5C115991EDE00F94499 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E6EE5C015991EDE00F94499 /* CoreGraphics.framework */; };
+		1E6EE5C715991EDE00F94499 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1E6EE5C515991EDE00F94499 /* InfoPlist.strings */; };
+		1E6EE5C915991EDE00F94499 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5C815991EDE00F94499 /* main.m */; };
+		1E6EE5CD15991EDE00F94499 /* ASLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */; };
+		1E6EE5D015991EDE00F94499 /* ASLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5CF15991EDE00F94499 /* ASLViewController.m */; };
+		1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6EE5D115991EDE00F94499 /* ASLViewController.xib */; };
+		1E6EE5E015991F8700F94499 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5DF15991F8700F94499 /* AutoScrollLabel.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1E6EE5B815991EDE00F94499 /* AutoScrollLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoScrollLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E6EE5BC15991EDE00F94499 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1E6EE5BE15991EDE00F94499 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1E6EE5C015991EDE00F94499 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1E6EE5C415991EDE00F94499 /* AutoScrollLabelDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AutoScrollLabelDemo-Info.plist"; sourceTree = "<group>"; };
+		1E6EE5C615991EDE00F94499 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1E6EE5C815991EDE00F94499 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1E6EE5CA15991EDE00F94499 /* AutoScrollLabelDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoScrollLabelDemo-Prefix.pch"; sourceTree = "<group>"; };
+		1E6EE5CB15991EDE00F94499 /* ASLAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASLAppDelegate.h; sourceTree = "<group>"; };
+		1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASLAppDelegate.m; sourceTree = "<group>"; };
+		1E6EE5CE15991EDE00F94499 /* ASLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASLViewController.h; sourceTree = "<group>"; };
+		1E6EE5CF15991EDE00F94499 /* ASLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASLViewController.m; sourceTree = "<group>"; };
+		1E6EE5D215991EDE00F94499 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ASLViewController.xib; sourceTree = "<group>"; };
+		1E6EE5DE15991F8700F94499 /* AutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoScrollLabel.h; sourceTree = "<group>"; };
+		1E6EE5DF15991F8700F94499 /* AutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoScrollLabel.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1E6EE5B515991EDE00F94499 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E6EE5BD15991EDE00F94499 /* UIKit.framework in Frameworks */,
+				1E6EE5BF15991EDE00F94499 /* Foundation.framework in Frameworks */,
+				1E6EE5C115991EDE00F94499 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1E6EE5AD15991EDD00F94499 = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5C215991EDE00F94499 /* AutoScrollLabelDemo */,
+				1E6EE5BB15991EDE00F94499 /* Frameworks */,
+				1E6EE5B915991EDE00F94499 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1E6EE5B915991EDE00F94499 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5B815991EDE00F94499 /* AutoScrollLabelDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1E6EE5BB15991EDE00F94499 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5BC15991EDE00F94499 /* UIKit.framework */,
+				1E6EE5BE15991EDE00F94499 /* Foundation.framework */,
+				1E6EE5C015991EDE00F94499 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1E6EE5C215991EDE00F94499 /* AutoScrollLabelDemo */ = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5DD15991F8700F94499 /* AutoScrollLabel */,
+				1E6EE5CB15991EDE00F94499 /* ASLAppDelegate.h */,
+				1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */,
+				1E6EE5CE15991EDE00F94499 /* ASLViewController.h */,
+				1E6EE5CF15991EDE00F94499 /* ASLViewController.m */,
+				1E6EE5D115991EDE00F94499 /* ASLViewController.xib */,
+				1E6EE5C315991EDE00F94499 /* Supporting Files */,
+			);
+			path = AutoScrollLabelDemo;
+			sourceTree = "<group>";
+		};
+		1E6EE5C315991EDE00F94499 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5C415991EDE00F94499 /* AutoScrollLabelDemo-Info.plist */,
+				1E6EE5C515991EDE00F94499 /* InfoPlist.strings */,
+				1E6EE5C815991EDE00F94499 /* main.m */,
+				1E6EE5CA15991EDE00F94499 /* AutoScrollLabelDemo-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1E6EE5DD15991F8700F94499 /* AutoScrollLabel */ = {
+			isa = PBXGroup;
+			children = (
+				1E6EE5DE15991F8700F94499 /* AutoScrollLabel.h */,
+				1E6EE5DF15991F8700F94499 /* AutoScrollLabel.m */,
+			);
+			name = AutoScrollLabel;
+			path = ../../AutoScrollLabel;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1E6EE5B715991EDE00F94499 /* AutoScrollLabelDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1E6EE5D615991EDE00F94499 /* Build configuration list for PBXNativeTarget "AutoScrollLabelDemo" */;
+			buildPhases = (
+				1E6EE5B415991EDE00F94499 /* Sources */,
+				1E6EE5B515991EDE00F94499 /* Frameworks */,
+				1E6EE5B615991EDE00F94499 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AutoScrollLabelDemo;
+			productName = AutoScrollLabelDemo;
+			productReference = 1E6EE5B815991EDE00F94499 /* AutoScrollLabelDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1E6EE5AF15991EDE00F94499 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ASL;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = "C. Bess";
+			};
+			buildConfigurationList = 1E6EE5B215991EDE00F94499 /* Build configuration list for PBXProject "AutoScrollLabelDemo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1E6EE5AD15991EDD00F94499;
+			productRefGroup = 1E6EE5B915991EDE00F94499 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1E6EE5B715991EDE00F94499 /* AutoScrollLabelDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1E6EE5B615991EDE00F94499 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E6EE5C715991EDE00F94499 /* InfoPlist.strings in Resources */,
+				1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1E6EE5B415991EDE00F94499 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1E6EE5C915991EDE00F94499 /* main.m in Sources */,
+				1E6EE5CD15991EDE00F94499 /* ASLAppDelegate.m in Sources */,
+				1E6EE5D015991EDE00F94499 /* ASLViewController.m in Sources */,
+				1E6EE5E015991F8700F94499 /* AutoScrollLabel.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1E6EE5C515991EDE00F94499 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E6EE5C615991EDE00F94499 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1E6EE5D115991EDE00F94499 /* ASLViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1E6EE5D215991EDE00F94499 /* en */,
+			);
+			name = ASLViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1E6EE5D415991EDE00F94499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1E6EE5D515991EDE00F94499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1E6EE5D715991EDE00F94499 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AutoScrollLabelDemo/AutoScrollLabelDemo-Prefix.pch";
+				INFOPLIST_FILE = "AutoScrollLabelDemo/AutoScrollLabelDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1E6EE5D815991EDE00F94499 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AutoScrollLabelDemo/AutoScrollLabelDemo-Prefix.pch";
+				INFOPLIST_FILE = "AutoScrollLabelDemo/AutoScrollLabelDemo-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1E6EE5B215991EDE00F94499 /* Build configuration list for PBXProject "AutoScrollLabelDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E6EE5D415991EDE00F94499 /* Debug */,
+				1E6EE5D515991EDE00F94499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1E6EE5D615991EDE00F94499 /* Build configuration list for PBXNativeTarget "AutoScrollLabelDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1E6EE5D715991EDE00F94499 /* Debug */,
+				1E6EE5D815991EDE00F94499 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1E6EE5AF15991EDE00F94499 /* Project object */;
+}
