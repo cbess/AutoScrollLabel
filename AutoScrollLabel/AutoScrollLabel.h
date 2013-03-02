@@ -19,7 +19,7 @@ typedef enum  {
 	AutoScrollDirectionLeft,
 } AutoScrollDirection;
 
-@interface AutoScrollLabel : UIScrollView <UIScrollViewDelegate>
+@interface AutoScrollLabel : UIView <UIScrollViewDelegate>
 @property (nonatomic) AutoScrollDirection scrollDirection;
 @property (nonatomic) float scrollSpeed; // pixels per second
 @property (nonatomic) NSTimeInterval pauseInterval;
@@ -33,6 +33,7 @@ typedef enum  {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
+@property (nonatomic, assign) CGFloat fadeLength;
 
 // UILabel properties
 @property (nonatomic, copy) NSString *text;

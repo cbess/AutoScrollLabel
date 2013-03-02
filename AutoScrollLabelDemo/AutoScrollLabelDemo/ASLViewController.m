@@ -27,12 +27,7 @@
     self.autoScrollLabel.pauseInterval = 1.7; // seconds of pause before scrolling starts again
     self.autoScrollLabel.scrollSpeed = 30; // pixels per second
     self.autoScrollLabel.textAlignment = UITextAlignmentCenter; // centers text when no auto-scrolling is applied
+    self.autoScrollLabel.fadeLength = 10.f;
 }
 
-- (void)viewDidUnload
-{
-    [self setAutoScrollLabel:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
 @end
