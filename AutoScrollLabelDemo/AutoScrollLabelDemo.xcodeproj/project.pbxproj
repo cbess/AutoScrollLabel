@@ -16,6 +16,8 @@
 		1E6EE5D015991EDE00F94499 /* ASLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5CF15991EDE00F94499 /* ASLViewController.m */; };
 		1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6EE5D115991EDE00F94499 /* ASLViewController.xib */; };
 		1E6EE5E015991F8700F94499 /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5DF15991F8700F94499 /* AutoScrollLabel.m */; };
+		92BA4B2916E1CCBF00770787 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BA4B2816E1CCBF00770787 /* QuartzCore.framework */; };
+		92BA4B2B16E1CDA000770787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92BA4B2A16E1CDA000770787 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		1E6EE5D215991EDE00F94499 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ASLViewController.xib; sourceTree = "<group>"; };
 		1E6EE5DE15991F8700F94499 /* AutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoScrollLabel.h; sourceTree = "<group>"; };
 		1E6EE5DF15991F8700F94499 /* AutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoScrollLabel.m; sourceTree = "<group>"; };
+		92BA4B2816E1CCBF00770787 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		92BA4B2A16E1CDA000770787 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92BA4B2916E1CCBF00770787 /* QuartzCore.framework in Frameworks */,
 				1E6EE5BD15991EDE00F94499 /* UIKit.framework in Frameworks */,
 				1E6EE5BF15991EDE00F94499 /* Foundation.framework in Frameworks */,
 				1E6EE5C115991EDE00F94499 /* CoreGraphics.framework in Frameworks */,
@@ -70,6 +75,7 @@
 		1E6EE5BB15991EDE00F94499 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				92BA4B2816E1CCBF00770787 /* QuartzCore.framework */,
 				1E6EE5BC15991EDE00F94499 /* UIKit.framework */,
 				1E6EE5BE15991EDE00F94499 /* Foundation.framework */,
 				1E6EE5C015991EDE00F94499 /* CoreGraphics.framework */,
@@ -94,6 +100,7 @@
 		1E6EE5C315991EDE00F94499 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				92BA4B2A16E1CDA000770787 /* Default-568h@2x.png */,
 				1E6EE5C415991EDE00F94499 /* AutoScrollLabelDemo-Info.plist */,
 				1E6EE5C515991EDE00F94499 /* InfoPlist.strings */,
 				1E6EE5C815991EDE00F94499 /* main.m */,
@@ -139,7 +146,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ASL;
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "C. Bess";
 			};
 			buildConfigurationList = 1E6EE5B215991EDE00F94499 /* Build configuration list for PBXProject "AutoScrollLabelDemo" */;
@@ -166,6 +173,7 @@
 			files = (
 				1E6EE5C715991EDE00F94499 /* InfoPlist.strings in Resources */,
 				1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */,
+				92BA4B2B16E1CDA000770787 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,6 +219,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -236,6 +248,10 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
