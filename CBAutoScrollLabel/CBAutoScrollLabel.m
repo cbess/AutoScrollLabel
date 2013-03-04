@@ -150,6 +150,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     if (_fadeLength != fadeLength)
     {
         _fadeLength = fadeLength;
+        
+        [self refreshLabels];
         [self applyGradientMaskForFadeLength:fadeLength];
     }
 }
@@ -200,13 +202,15 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)setScrollSpeed:(float)speed
 {
 	_scrollSpeed = speed;
-	[self refreshLabels];
+    
+    [self scrollLabelIfNeeded];
 }
 
 - (void)setScrollDirection:(CBAutoScrollDirection)direction
 {
 	_scrollDirection = direction;
-	[self refreshLabels];
+    
+    [self scrollLabelIfNeeded];
 }
 
 - (void)setShadowColor:(UIColor *)color
@@ -237,6 +241,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	if (labelWidth <= CGRectGetWidth(self.bounds))
         return;
     
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
+    
 	_isScrolling = YES;
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
@@ -259,7 +265,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)refreshLabels
 {
-	__block float offset = 0;
+	__block float offset = self.fadeLength;
 	
     // calculate the label size
     CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
@@ -303,18 +309,15 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.mainLabel.frame = self.bounds;
         self.mainLabel.hidden = NO;
         self.mainLabel.textAlignment = self.textAlignment;
+        
+        [self applyGradientMaskForFadeLength:0];
 	}
 }
 
 #pragma mark - Gradient
 
-- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength
-{
-    [self applyGradientMaskForFadeLength:fadeLength animated:YES];
-}
-
 // ref: https://github.com/cbpowell/MarqueeLabel
-- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength animated:(BOOL)animated
+- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength
 {
     if (fadeLength)
     {
