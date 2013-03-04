@@ -7,10 +7,10 @@
 //
 
 #import "ASLViewController.h"
-#import "AutoScrollLabel.h"
+#import "CBAutoScrollLabel.h"
 
 @interface ASLViewController ()
-@property (weak, nonatomic) IBOutlet AutoScrollLabel *autoScrollLabel;
+@property (weak, nonatomic) IBOutlet CBAutoScrollLabel *autoScrollLabel;
 @end
 
 @implementation ASLViewController

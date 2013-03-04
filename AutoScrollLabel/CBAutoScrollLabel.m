@@ -1,6 +1,6 @@
 //
-//  AutoScrollLabel.m
-//  AutoScrollLabel
+//  CBAutoScrollLabel.m
+//  CBAutoScrollLabel
 //
 //  Created by Brian Stormont on 10/21/09.
 //  Updated by Christopher Bess on 2/5/12
@@ -10,7 +10,7 @@
 //  Permission is granted to use this code free of charge for any project.
 //
 
-#import "AutoScrollLabel.h"
+#import "CBAutoScrollLabel.h"
 #import <QuartzCore/QuartzCore.h>
 
 #define kLabelCount 2
@@ -29,7 +29,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 // shortcut to change each label attribute value
 #define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(UILabel *label) { label.ATTR = VALUE; });
 
-@interface AutoScrollLabel ()
+@interface CBAutoScrollLabel ()
 {
 	BOOL _isScrolling;
 }
@@ -40,7 +40,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 @end
 
-@implementation AutoScrollLabel
+@implementation CBAutoScrollLabel
 
 @synthesize scrollDirection = _scrollDirection;
 @synthesize pauseInterval = _pauseInterval;
@@ -99,7 +99,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     #endif
     
     // default values
-	_scrollDirection = AutoScrollDirectionLeft;
+	_scrollDirection = CBAutoScrollDirectionLeft;
 	_scrollSpeed = kDefaultPixelsPerSecond;
 	_pauseInterval = kDefaultPauseTime;
 	_labelSpacing = kDefaultLabelBufferSpace;
@@ -200,7 +200,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	[self refreshLabels];
 }
 
-- (void)setScrollDirection:(AutoScrollDirection)direction
+- (void)setScrollDirection:(CBAutoScrollDirection)direction
 {
 	_scrollDirection = direction;
 	[self refreshLabels];
@@ -235,7 +235,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         return;
     
 	_isScrolling = YES;
-    BOOL doScrollLeft = (self.scrollDirection == AutoScrollDirectionLeft);   
+    BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
     
     // animate the scrolling

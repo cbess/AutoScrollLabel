@@ -1,6 +1,6 @@
 //
-//  AutoScrollLabel.h
-//  AutoScrollLabel
+//  CBAutoScrollLabel.h
+//  CBAutoScrollLabel
 //
 //  Created by Brian Stormont on 10/21/09.
 //  Updated/Modernized by Christopher Bess on 2/5/12
@@ -15,12 +15,12 @@
 #import <UIKit/UIKit.h>
 
 typedef enum  {
-	AutoScrollDirectionRight,
-	AutoScrollDirectionLeft,
-} AutoScrollDirection;
+	CBAutoScrollDirectionRight,
+	CBAutoScrollDirectionLeft,
+} CBAutoScrollDirection;
 
-@interface AutoScrollLabel : UIView <UIScrollViewDelegate>
-@property (nonatomic) AutoScrollDirection scrollDirection;
+@interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
+@property (nonatomic) CBAutoScrollDirection scrollDirection;
 @property (nonatomic) float scrollSpeed; // pixels per second
 @property (nonatomic) NSTimeInterval pauseInterval;
 @property (nonatomic) NSInteger labelSpacing; // pixels
