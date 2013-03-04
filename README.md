@@ -14,3 +14,4 @@ Usage:
     autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
     autoScrollLabel.scrollSpeed = 30; // pixels per second
     autoScrollLabel.textAlignment = UITextAlignmentCenter; // centers text when no auto-scrolling is applied
+    autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 to disable
