@@ -45,12 +45,12 @@ typedef enum  {
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
- * @discussion Uses [scrollLabelIfNeeded] internally, if needed.
+ * @discussion Uses [scrollLabelIfNeeded] internally.
  */
 - (void)refreshLabels;
 
 /**
- * Initiates auto-scroll if the labels width exceeds the bounds of the scrollview.
+ * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
  */
 - (void)scrollLabelIfNeeded;
 @end

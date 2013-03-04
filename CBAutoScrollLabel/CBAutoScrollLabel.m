@@ -33,10 +33,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
 {
 	BOOL _isScrolling;
 }
-@property (nonatomic, retain) NSArray *labels;
+@property (nonatomic, strong) NSArray *labels;
 @property (strong, nonatomic, readonly) UILabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
-- (void)commonInit;
 
 @end
 
@@ -138,6 +137,10 @@ static void each_object(NSArray *objects, void (^block)(id object))
         _scrollView.backgroundColor = [UIColor clearColor];
         
         [self addSubview:_scrollView];
+        
+#if ! __has_feature(objc_arc)
+        [_scrollView release];
+#endif
     }
     return _scrollView;
 }
