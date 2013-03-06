@@ -238,6 +238,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void) enableShadow
 {
+    _isScrolling = YES;
     [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:YES];
 }
 
@@ -249,8 +250,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
-
-	_isScrolling = YES;
+    
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
     
@@ -334,7 +334,11 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 // ref: https://github.com/cbpowell/MarqueeLabel
 - (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength enableLeft:(BOOL)enableLeft
-{   
+{
+    CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
+	if (labelWidth <= CGRectGetWidth(self.bounds))
+        fadeLength = 0.0;
+
     if (fadeLength)
     {
         // Recreate gradient mask with new fade length
