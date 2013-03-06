@@ -313,6 +313,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
         
         EACH_LABEL(hidden, NO)
         
+        [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
+
 		[self scrollLabelIfNeeded];
 	}
     else
