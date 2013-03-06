@@ -253,7 +253,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 	if (labelWidth <= CGRectGetWidth(self.bounds))
         return;
-    DDLogVerbose(@"%f <= %f %@", labelWidth, CGRectGetWidth(self.bounds), self.text);
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
     
@@ -287,7 +286,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)refreshLabels
 {
-    DDLogVerbose(@"refresh %@", self.text);
 	__block float offset = 0.0;
 	
     // calculate the label size
@@ -311,7 +309,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	self.scrollView.contentOffset = CGPointZero;
     
 	// if the label is bigger than the space allocated, then it should scroll
-    DDLogVerbose(@"%f > %f", CGRectGetWidth(self.mainLabel.bounds), CGRectGetWidth(self.bounds));
 	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds) )
     {
         CGSize size;
