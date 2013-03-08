@@ -37,6 +37,7 @@ typedef enum  {
 
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
+@property (nonatomic, copy) NSAttributedString *attributedText;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIColor *shadowColor;
@@ -56,6 +57,7 @@ typedef enum  {
  * completely lost
  */
 - (void)setText:(NSString*)text andRefreshLabels:(BOOL)refresh;
+- (void)setAttributedText:(NSAttributedString *)theText andRefreshLabels:(BOOL)refresh;
 
 /**
  * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.

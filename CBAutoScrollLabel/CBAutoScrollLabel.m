@@ -12,6 +12,7 @@
 
 #import "CBAutoScrollLabel.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SimpleAttributedLabel.h"
 
 #define kLabelCount 2
 // pixel buffer space between scrolling label
@@ -27,14 +28,14 @@ static void each_object(NSArray *objects, void (^block)(id object))
 }
 
 // shortcut to change each label attribute value
-#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(UILabel *label) { label.ATTR = VALUE; });
+#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(SimpleAttributedLabel *label) { label.ATTR = VALUE; });
 
 @interface CBAutoScrollLabel ()
 {
 	BOOL _isScrolling;
 }
 @property (nonatomic, strong) NSArray *labels;
-@property (strong, nonatomic, readonly) UILabel *mainLabel;
+@property (strong, nonatomic, readonly) SimpleAttributedLabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
@@ -78,8 +79,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     NSMutableSet *labelSet = [[NSMutableSet alloc] initWithCapacity:kLabelCount];
 	for (int index = 0 ; index < kLabelCount ; ++index)
     {
-		UILabel *label = [[UILabel alloc] init];
-		label.textColor = [UIColor whiteColor];
+		SimpleAttributedLabel *label = [[SimpleAttributedLabel alloc] init];
+		//label.textColor = [UIColor whiteColor];
 		label.backgroundColor = [UIColor clearColor];
         
         // store labels
@@ -157,7 +158,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     }
 }
 
-- (UILabel *)mainLabel
+- (SimpleAttributedLabel *)mainLabel
 {
     return [self.labels objectAtIndex:0];
 }
@@ -182,6 +183,28 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (NSString *)text
 {
 	return self.mainLabel.text;
+}
+
+- (void) setAttributedText:(NSAttributedString *)theText
+{
+    [self setAttributedText:theText andRefreshLabels:YES];
+}
+
+- (void)setAttributedText:(NSAttributedString *)theText andRefreshLabels:(BOOL)refresh
+{
+    // ignore identical text changes
+	if ([theText.string isEqualToString:self.attributedText.string])
+		return;
+	
+    EACH_LABEL(attributedText, theText)
+    
+    if (refresh)
+        [self refreshLabels];
+}
+
+- (NSAttributedString *)setAttributedText
+{
+	return self.mainLabel.attributedText;
 }
 
 - (void)setTextColor:(UIColor *)color
@@ -293,7 +316,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
                                        constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))
                                            lineBreakMode:UILineBreakModeClip];
     
-    each_object(self.labels, ^(UILabel *label) {
+    each_object(self.labels, ^(SimpleAttributedLabel *label) {
         CGRect frame = label.frame;
         frame.origin.x = offset;
         frame.size.height = CGRectGetHeight(self.bounds);
@@ -331,7 +354,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.scrollView.contentSize = self.bounds.size;
         self.mainLabel.frame = self.bounds;
         self.mainLabel.hidden = NO;
-        self.mainLabel.textAlignment = self.textAlignment;
+        //self.mainLabel.textAlignment = self.textAlignment;
         
         [self applyGradientMaskForFadeLength:0 enableLeft:NO];
 	}
