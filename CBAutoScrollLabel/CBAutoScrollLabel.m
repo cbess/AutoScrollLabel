@@ -14,6 +14,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #define kLabelCount 2
+#define kDefaultFadeLength 7.f
 // pixel buffer space between scrolling label
 #define kDefaultLabelBufferSpace 20
 #define kDefaultPixelsPerSecond 30
@@ -100,8 +101,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     // default values
 	_scrollDirection = CBAutoScrollDirectionLeft;
 	_scrollSpeed = kDefaultPixelsPerSecond;
-	_pauseInterval = kDefaultPauseTime;
-	_labelSpacing = kDefaultLabelBufferSpace;
+	self.pauseInterval = kDefaultPauseTime;
+	self.labelSpacing = kDefaultLabelBufferSpace;
     self.textAlignment = UITextAlignmentLeft;
     self.animationOptions = UIViewAnimationOptionCurveEaseIn;
 	self.scrollView.showsVerticalScrollIndicator = NO;
@@ -110,6 +111,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     self.userInteractionEnabled = NO;
     self.backgroundColor = [UIColor clearColor];
     self.clipsToBounds = YES;
+    self.fadeLength = kDefaultFadeLength;
 }
 
 - (void)dealloc 
