@@ -313,15 +313,15 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	
     // calculate the label size
     CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
-                                       constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))
-                                           lineBreakMode:UILineBreakModeClip];
-    
+                                       constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))];
+
     each_object(self.labels, ^(SimpleAttributedLabel *label) {
         CGRect frame = label.frame;
         frame.origin.x = offset;
         frame.size.height = CGRectGetHeight(self.bounds);
-        frame.size.width = labelSize.width;
+        frame.size.width = labelSize.width + 2 /*Magic number*/;
         label.frame = frame;
+
         
         // Recenter label vertically within the scroll view
         label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
@@ -330,7 +330,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     });
     
 	self.scrollView.contentOffset = CGPointZero;
-    
+
 	// if the label is bigger than the space allocated, then it should scroll
 	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds) )
     {
@@ -338,7 +338,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + _labelSpacing;
         size.height = CGRectGetHeight(self.bounds);
         self.scrollView.contentSize = size;
-        
+
         EACH_LABEL(hidden, NO)
         
         [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
