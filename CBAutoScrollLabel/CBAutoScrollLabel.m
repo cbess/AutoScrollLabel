@@ -12,6 +12,7 @@
 
 #import "CBAutoScrollLabel.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SimpleAttributedLabel.h"
 
 #define kLabelCount 2
 #define kDefaultFadeLength 7.f
@@ -28,14 +29,14 @@ static void each_object(NSArray *objects, void (^block)(id object))
 }
 
 // shortcut to change each label attribute value
-#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(UILabel *label) { label.ATTR = VALUE; });
+#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(SimpleAttributedLabel *label) { label.ATTR = VALUE; });
 
 @interface CBAutoScrollLabel ()
 {
 	BOOL _isScrolling;
 }
 @property (nonatomic, strong) NSArray *labels;
-@property (strong, nonatomic, readonly) UILabel *mainLabel;
+@property (strong, nonatomic, readonly) SimpleAttributedLabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
@@ -79,8 +80,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     NSMutableSet *labelSet = [[NSMutableSet alloc] initWithCapacity:kLabelCount];
 	for (int index = 0 ; index < kLabelCount ; ++index)
     {
-		UILabel *label = [[UILabel alloc] init];
-		label.textColor = [UIColor whiteColor];
+		SimpleAttributedLabel *label = [[SimpleAttributedLabel alloc] init];
+		//label.textColor = [UIColor whiteColor];
 		label.backgroundColor = [UIColor clearColor];
         
         // store labels
@@ -117,6 +118,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)dealloc 
 {
     self.labels = nil;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
     #if ! __has_feature(objc_arc)
     [super dealloc];
     #endif
@@ -125,7 +127,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    [self applyGradientMaskForFadeLength:self.fadeLength];
+    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
 }
 
 #pragma mark - Properties
@@ -154,16 +156,21 @@ static void each_object(NSArray *objects, void (^block)(id object))
         _fadeLength = fadeLength;
         
         [self refreshLabels];
-        [self applyGradientMaskForFadeLength:fadeLength];
+        [self applyGradientMaskForFadeLength:fadeLength enableLeft:NO];
     }
 }
 
-- (UILabel *)mainLabel
+- (SimpleAttributedLabel *)mainLabel
 {
     return [self.labels objectAtIndex:0];
 }
 
-- (void)setText:(NSString *)theText
+- (void) setText:(NSString *)theText
+{
+    [self setText:theText andRefreshLabels:YES];
+}
+
+- (void)setText:(NSString *)theText andRefreshLabels:(BOOL)refresh
 {
     // ignore identical text changes
 	if ([theText isEqualToString:self.text])
@@ -171,12 +178,35 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	
     EACH_LABEL(text, theText)
     
-	[self refreshLabels];
+    if (refresh)
+        [self refreshLabels];
 }
 
 - (NSString *)text
 {
 	return self.mainLabel.text;
+}
+
+- (void) setAttributedText:(NSAttributedString *)theText
+{
+    [self setAttributedText:theText andRefreshLabels:YES];
+}
+
+- (void)setAttributedText:(NSAttributedString *)theText andRefreshLabels:(BOOL)refresh
+{
+    // ignore identical text changes
+	if ([theText.string isEqualToString:self.attributedText.string])
+		return;
+	
+    EACH_LABEL(attributedText, theText)
+    
+    if (refresh)
+        [self refreshLabels];
+}
+
+- (NSAttributedString *)setAttributedText
+{
+	return self.mainLabel.attributedText;
 }
 
 - (void)setTextColor:(UIColor *)color
@@ -237,17 +267,28 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 #pragma mark - Misc
 
+- (void) enableShadow
+{
+    _isScrolling = YES;
+    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:YES];
+}
+
 - (void)scrollLabelIfNeeded
 {
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 	if (labelWidth <= CGRectGetWidth(self.bounds))
         return;
-    
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
     
-	_isScrolling = YES;
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
+    
+    // Add the right shadow
+    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:NO];
+    
+    // Add the left shadow after delay
+    [self performSelector:@selector(enableShadow) withObject:nil afterDelay:self.pauseInterval];
     
     // animate the scrolling
     NSTimeInterval duration = labelWidth / self.scrollSpeed;
@@ -256,6 +297,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.scrollView.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + _labelSpacing, 0) : CGPointZero);
     } completion:^(BOOL finished) {
         _isScrolling = NO;
+        
+        // remove the left shadow
+        [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:NO];
         
         // setup pause delay/loop
         if (finished)
@@ -267,19 +311,19 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)refreshLabels
 {
-	__block float offset = self.fadeLength;
+	__block float offset = 0.0;
 	
     // calculate the label size
     CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
-                                       constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))
-                                           lineBreakMode:UILineBreakModeClip];
-    
-    each_object(self.labels, ^(UILabel *label) {
+                                       constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))];
+
+    each_object(self.labels, ^(SimpleAttributedLabel *label) {
         CGRect frame = label.frame;
         frame.origin.x = offset;
         frame.size.height = CGRectGetHeight(self.bounds);
-        frame.size.width = labelSize.width;
+        frame.size.width = labelSize.width + 2 /*Magic number*/;
         label.frame = frame;
+
         
         // Recenter label vertically within the scroll view
         label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
@@ -288,17 +332,19 @@ static void each_object(NSArray *objects, void (^block)(id object))
     });
     
 	self.scrollView.contentOffset = CGPointZero;
-    
+
 	// if the label is bigger than the space allocated, then it should scroll
-	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds) - (self.fadeLength * 2))
+	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds) )
     {
         CGSize size;
         size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + _labelSpacing;
         size.height = CGRectGetHeight(self.bounds);
         self.scrollView.contentSize = size;
-        
+
         EACH_LABEL(hidden, NO)
         
+        [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
+
 		[self scrollLabelIfNeeded];
 	}
     else
@@ -310,17 +356,21 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.scrollView.contentSize = self.bounds.size;
         self.mainLabel.frame = self.bounds;
         self.mainLabel.hidden = NO;
-        self.mainLabel.textAlignment = self.textAlignment;
+        //self.mainLabel.textAlignment = self.textAlignment;
         
-        [self applyGradientMaskForFadeLength:0];
+        [self applyGradientMaskForFadeLength:0 enableLeft:NO];
 	}
 }
 
 #pragma mark - Gradient
 
 // ref: https://github.com/cbpowell/MarqueeLabel
-- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength
+- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength enableLeft:(BOOL)enableLeft
 {
+    CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
+	if (labelWidth <= CGRectGetWidth(self.bounds))
+        fadeLength = 0.0;
+
     if (fadeLength)
     {
         // Recreate gradient mask with new fade length
@@ -340,7 +390,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         id opaque = (id)[[UIColor blackColor] CGColor];
         CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
         gradientMask.colors = @[transparent, opaque, opaque, transparent];
-        gradientMask.locations = @[@0, @(fadePoint), @(1 - fadePoint), @1];
+        gradientMask.locations = @[@0, enableLeft ? @(fadePoint) : @0, @(1 - fadePoint), @1];
         
         self.layer.mask = gradientMask;
     }
