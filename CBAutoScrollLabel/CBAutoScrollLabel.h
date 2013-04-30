@@ -52,12 +52,11 @@ typedef enum  {
 
 
 /**
- * Set the text to the label and refresh labels if required.
- * You may have a situation where you need to layout the scroll label after it's set text. In that case, autoscroll label is 
- * completely lost
+ * Set the text to the label and refresh labels, if needed.
+ * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
  */
-- (void)setText:(NSString*)text andRefreshLabels:(BOOL)refresh;
-- (void)setAttributedText:(NSAttributedString *)theText andRefreshLabels:(BOOL)refresh;
+- (void)setText:(NSString *)text refreshLabels:(BOOL)refresh;
+- (void)setAttributedText:(NSAttributedString *)theText refreshLabels:(BOOL)refresh;
 
 /**
  * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
