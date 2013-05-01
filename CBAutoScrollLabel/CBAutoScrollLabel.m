@@ -125,7 +125,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
+    [self applyGradientMaskForFadeLength:self.fadeLength enableFade:_isScrolling];
 }
 
 #pragma mark - Properties
@@ -154,7 +154,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         _fadeLength = fadeLength;
         
         [self refreshLabels];
-        [self applyGradientMaskForFadeLength:fadeLength enableLeft:NO];
+        [self applyGradientMaskForFadeLength:fadeLength enableFade:NO];
     }
 }
 
@@ -268,7 +268,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)enableShadow
 {
     _isScrolling = YES;
-    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:YES];
+    [self applyGradientMaskForFadeLength:self.fadeLength enableFade:YES];
 }
 
 - (void)scrollLabelIfNeeded
@@ -283,9 +283,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + _labelSpacing, 0));
     
-    // Add the right shadow
-    [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:NO];
-    
     // Add the left shadow after delay
     [self performSelector:@selector(enableShadow) withObject:nil afterDelay:self.pauseInterval];
     
@@ -298,7 +295,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         _isScrolling = NO;
         
         // remove the left shadow
-        [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:NO];
+        [self applyGradientMaskForFadeLength:self.fadeLength enableFade:NO];
         
         // setup pause delay/loop
         if (finished)
@@ -341,7 +338,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
         EACH_LABEL(hidden, NO)
         
-        [self applyGradientMaskForFadeLength:self.fadeLength enableLeft:_isScrolling];
+        [self applyGradientMaskForFadeLength:self.fadeLength enableFade:_isScrolling];
 
 		[self scrollLabelIfNeeded];
 	}
@@ -356,14 +353,14 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.mainLabel.hidden = NO;
         //self.mainLabel.textAlignment = self.textAlignment;
         
-        [self applyGradientMaskForFadeLength:0 enableLeft:NO];
+        [self applyGradientMaskForFadeLength:0 enableFade:NO];
 	}
 }
 
 #pragma mark - Gradient
 
 // ref: https://github.com/cbpowell/MarqueeLabel
-- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength enableLeft:(BOOL)enableLeft
+- (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength enableFade:(BOOL)fade
 {
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 	if (labelWidth <= CGRectGetWidth(self.bounds))
@@ -384,13 +381,27 @@ static void each_object(NSArray *objects, void (^block)(id object))
         gradientMask.endPoint = CGPointMake(1.0, CGRectGetMidY(self.frame));
 
         // setup fade mask colors and location
-        id transparent = (id)[[UIColor clearColor] CGColor];
-        id opaque = (id)[[UIColor blackColor] CGColor];
-        CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
+        id transparent = (id)[UIColor clearColor].CGColor;
+        id opaque = (id)[UIColor blackColor].CGColor;
         gradientMask.colors = @[transparent, opaque, opaque, transparent];
-        NSNumber *leftFadePoint = enableLeft ? @(fadePoint) : @0;
-//        NSNumber *rightFadePoint = nil ? @(1 - fadePoint) : @0;
+        
+        // calcluate fade
+        CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
+        NSNumber *leftFadePoint = @(fadePoint);
         NSNumber *rightFadePoint = @(1 - fadePoint);
+        if (!fade) switch (self.scrollDirection)
+        {
+            case CBAutoScrollDirectionLeft:
+                leftFadePoint = @0;
+                break;
+                
+            case CBAutoScrollDirectionRight:
+                leftFadePoint = @0;
+                rightFadePoint = @1;
+                break;
+        }
+        
+        // apply calculations to mask
         gradientMask.locations = @[@0, leftFadePoint, rightFadePoint, @1];
         
         self.layer.mask = gradientMask;
