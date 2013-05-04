@@ -10,7 +10,10 @@
 #import "CBAutoScrollLabel.h"
 
 @interface ASLViewController ()
+
 @property (weak, nonatomic) IBOutlet CBAutoScrollLabel *autoScrollLabel;
+@property (weak, nonatomic) IBOutlet CBAutoScrollLabel *navigationBarScrollLabel;
+
 @end
 
 @implementation ASLViewController
@@ -29,6 +32,14 @@
     self.autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text when no auto-scrolling is applied
     self.autoScrollLabel.fadeLength = 12.f;
     self.autoScrollLabel.scrollDirection = CBAutoScrollDirectionLeft;
+    
+    // navigation bar auto scroll label
+    self.navigationBarScrollLabel.text = @"Navigation Bar Title... Scrolling.";
+    self.navigationBarScrollLabel.pauseInterval = 7.7f;
+    self.navigationBarScrollLabel.font = [UIFont boldSystemFontOfSize:20];
+    self.navigationBarScrollLabel.textColor = [UIColor whiteColor];
+    self.navigationBarScrollLabel.shadowOffset = CGSizeMake(-1, -1);
+    self.navigationBarScrollLabel.shadowColor = [UIColor blackColor];
 }
 
 @end
