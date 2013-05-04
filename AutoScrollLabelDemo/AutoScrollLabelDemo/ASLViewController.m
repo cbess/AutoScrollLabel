@@ -35,7 +35,7 @@
     
     // navigation bar auto scroll label
     self.navigationBarScrollLabel.text = @"Navigation Bar Title... Scrolling.";
-    self.navigationBarScrollLabel.pauseInterval = 7.7f;
+    self.navigationBarScrollLabel.pauseInterval = 3.f;
     self.navigationBarScrollLabel.font = [UIFont boldSystemFontOfSize:20];
     self.navigationBarScrollLabel.textColor = [UIColor whiteColor];
     self.navigationBarScrollLabel.shadowOffset = CGSizeMake(-1, -1);
