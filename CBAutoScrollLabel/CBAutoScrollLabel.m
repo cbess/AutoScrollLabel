@@ -276,7 +276,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         return;
     
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
-	if (labelWidth <= CGRectGetWidth(self.bounds) || self.scrolling)
+	if (labelWidth <= CGRectGetWidth(self.bounds))
         return;
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
