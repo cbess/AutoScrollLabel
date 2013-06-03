@@ -218,6 +218,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)setFont:(UIFont *)font
 {
+    if (self.mainLabel.font == font)
+        return;
+    
     EACH_LABEL(font, font)
     
 	[self refreshLabels];
