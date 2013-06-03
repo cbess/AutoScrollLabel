@@ -42,7 +42,7 @@ typedef enum  {
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
-@property (nonatomic) UITextAlignment textAlignment; // only applies when not auto-scrolling
+@property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
