@@ -12,23 +12,37 @@
 //  Permission is granted to use this code free of charge for any project.
 //
 
+#ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
+#   define CB_IS_IOS 1
+#   define CB_IF_MAC(T_BLOCK, F_BLOCK) F_BLOCK
+#else
+#   define CB_IS_MAC 1
+#   define CB_IF_MAC(T_BLOCK, F_BLOCK) T_BLOCK
+#endif
+
+#if CB_IS_IOS
 #import <UIKit/UIKit.h>
+#else
+#import <Cocoa/Cocoa.h>
+#endif
 
 typedef enum  {
 	CBAutoScrollDirectionRight,
 	CBAutoScrollDirectionLeft,
 } CBAutoScrollDirection;
 
-@interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
+@interface CBAutoScrollLabel : CB_IF_MAC(NSView, UIView <UIScrollViewDelegate>)
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 @property (nonatomic) float scrollSpeed; // pixels per second
 @property (nonatomic) NSTimeInterval pauseInterval;
 @property (nonatomic) NSInteger labelSpacing; // pixels
+#if CB_IS_IOS
 /**
  * The animation options used when scrolling the UILabels.
  * @discussion UIViewAnimationOptionAllowUserInteraction is always applied to the animations.
  */
 @property (nonatomic) UIViewAnimationOptions animationOptions;
+#endif
 /**
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
@@ -38,9 +52,9 @@ typedef enum  {
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
 @property (nonatomic, copy) NSAttributedString *attributedText;
-@property (nonatomic, strong) UIColor *textColor;
-@property (nonatomic, strong) UIFont *font;
-@property (nonatomic, strong) UIColor *shadowColor;
+@property (nonatomic, strong) CB_IF_MAC(NSColor, UIColor) *textColor;
+@property (nonatomic, strong) CB_IF_MAC(NSFont, UIFont) *font;
+@property (nonatomic, strong) CB_IF_MAC(NSColor, UIColor) *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 
