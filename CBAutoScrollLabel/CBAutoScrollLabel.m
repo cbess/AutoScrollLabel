@@ -356,6 +356,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.scrollView.contentSize = self.bounds.size;
         self.mainLabel.frame = self.bounds;
         self.mainLabel.hidden = NO;
+        self.mainLabel.textAlignment = self.textAlignment;
         
         [self applyGradientMaskForFadeLength:0 enableFade:NO];
 	}
