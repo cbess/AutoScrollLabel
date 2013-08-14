@@ -116,6 +116,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
 {
     self.labels = nil;
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     #if ! __has_feature(objc_arc)
     [super dealloc];
     #endif
@@ -266,6 +268,28 @@ static void each_object(NSArray *objects, void (^block)(id object))
 }
 
 #pragma mark - Misc
+
+- (void)observeApplicationNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // restart scrolling when the app has been activated
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollLabelIfNeeded)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollLabelIfNeeded)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    // refresh labels when interface orientation is changed
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshLabels)
+                                                 name:UIApplicationDidChangeStatusBarFrameNotification
+                                               object:nil];
+}
 
 - (void)enableShadow
 {
