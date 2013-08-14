@@ -115,7 +115,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)dealloc 
 {
     self.labels = nil;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     #if ! __has_feature(objc_arc)
@@ -286,8 +286,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     
     // refresh labels when interface orientation is changed
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshLabels)
-                                                 name:UIApplicationDidChangeStatusBarFrameNotification
+                                             selector:@selector(onUIApplicationDidChangeStatusBarOrientationNotification:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
 }
 
@@ -443,6 +443,15 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // Remove gradient mask for 0.0f lenth fade length
         self.layer.mask = nil;
     }
+}
+
+#pragma mark - Notifications
+
+- (void)onUIApplicationDidChangeStatusBarOrientationNotification:(NSNotification *)notification
+{
+    // delay to have it re-calculate on next runloop
+    [self performSelector:@selector(refreshLabels) withObject:nil afterDelay:.1f];
+    [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
 }
 
 @end
