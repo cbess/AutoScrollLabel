@@ -115,7 +115,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)dealloc 
 {
     self.labels = nil;
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     #if ! __has_feature(objc_arc)
     [super dealloc];
     #endif
@@ -267,6 +269,28 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 #pragma mark - Misc
 
+- (void)observeApplicationNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // restart scrolling when the app has been activated
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollLabelIfNeeded)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(scrollLabelIfNeeded)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    // refresh labels when interface orientation is changed
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onUIApplicationDidChangeStatusBarOrientationNotification:)
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
+                                               object:nil];
+}
+
 - (void)enableShadow
 {
     _scrolling = YES;
@@ -312,7 +336,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)refreshLabels
 {
-	__block float offset = 0.0;
+	__block float offset = 0;
 	
     // calculate the label size
     CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
@@ -322,7 +346,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         CGRect frame = label.frame;
         frame.origin.x = offset;
         frame.size.height = CGRectGetHeight(self.bounds);
-        frame.size.width = labelSize.width + 2 /*Magic number*/;
+        frame.size.width = labelSize.width + 2.f /*Magic number*/;
         label.frame = frame;
         
         // Recenter label vertically within the scroll view
@@ -369,7 +393,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 {
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 	if (labelWidth <= CGRectGetWidth(self.bounds))
-        fadeLength = 0.0;
+        fadeLength = 0;
 
     if (fadeLength)
     {
@@ -382,8 +406,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
         gradientMask.shouldRasterize = YES;
         gradientMask.rasterizationScale = [UIScreen mainScreen].scale;
         
-        gradientMask.startPoint = CGPointMake(0.0, CGRectGetMidY(self.frame));
-        gradientMask.endPoint = CGPointMake(1.0, CGRectGetMidY(self.frame));
+        gradientMask.startPoint = CGPointMake(0, CGRectGetMidY(self.frame));
+        gradientMask.endPoint = CGPointMake(1, CGRectGetMidY(self.frame));
 
         // setup fade mask colors and location
         id transparent = (id)[UIColor clearColor].CGColor;
@@ -409,13 +433,25 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // apply calculations to mask
         gradientMask.locations = @[@0, leftFadePoint, rightFadePoint, @1];
         
+        [CATransaction begin];
+        [CATransaction setDisableActions:YES];
         self.layer.mask = gradientMask;
+        [CATransaction commit];
     }
     else
     {
         // Remove gradient mask for 0.0f lenth fade length
         self.layer.mask = nil;
     }
+}
+
+#pragma mark - Notifications
+
+- (void)onUIApplicationDidChangeStatusBarOrientationNotification:(NSNotification *)notification
+{
+    // delay to have it re-calculate on next runloop
+    [self performSelector:@selector(refreshLabels) withObject:nil afterDelay:.1f];
+    [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
 }
 
 @end

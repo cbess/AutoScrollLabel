@@ -62,4 +62,12 @@ typedef enum  {
  * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
  */
 - (void)scrollLabelIfNeeded;
+
+/**
+ * Observes UIApplication state notifications to auto-restart scrolling and watch for 
+ * orientation changes to refresh the labels.
+ * @discussion Must be called to observe the notifications. Calling multiple times will still only
+ * register the notifications once.
+ */
+- (void)observeApplicationNotifications;
 @end
