@@ -203,7 +203,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         [self refreshLabels];
 }
 
-- (NSAttributedString *)setAttributedText
+- (NSAttributedString *)attributedText
 {
 	return self.mainLabel.attributedText;
 }
