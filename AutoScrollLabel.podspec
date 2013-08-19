@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
   s.license  = { :type => 'MIT', :file => 'LICENSE.txt' }
   s.author   = { 'Christopher Bess' => 'cbess@quantumquinn.com' }
-  s.source   = { :git => 'https://github.com/cbess/AutoScrollLabel.git', :tag => 'v' + s.version }
+  s.source   = { :git => 'https://github.com/cbess/AutoScrollLabel.git', :tag => 'v0.2.1' }
 
   s.platform = :ios, '6.0'
   s.requires_arc = false
