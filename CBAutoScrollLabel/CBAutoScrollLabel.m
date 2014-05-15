@@ -84,17 +84,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
         // store labels
 		[self.scrollView addSubview:label];
         [labelSet addObject:label];
-        
-        #if ! __has_feature(objc_arc)
-        [label release];
-        #endif
 	}
 	
     self.labels = [labelSet.allObjects copy];
-    
-    #if ! __has_feature(objc_arc)
-    [labelSet release];
-    #endif
     
     // default values
 	_scrollDirection = CBAutoScrollDirectionLeft;
@@ -114,13 +106,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
 
 - (void)dealloc 
 {
-    self.labels = nil;
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    #if ! __has_feature(objc_arc)
-    [super dealloc];
-    #endif
 }
 
 - (void)setFrame:(CGRect)frame
@@ -140,10 +127,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
         _scrollView.backgroundColor = [UIColor clearColor];
         
         [self addSubview:_scrollView];
-        
-#if ! __has_feature(objc_arc)
-        [_scrollView release];
-#endif
     }
     return _scrollView;
 }
