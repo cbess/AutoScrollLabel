@@ -1,7 +1,7 @@
 ##AutoScrollLabel
 
 A UILabel with auto scrolling for text that may be clipped by the view. Provides edge fading, speed adjustment, scroll direction, etc.  
-iOS 6 and greater, works with ARC and non-ARC projects.
+iOS 6 and greater, works with ARC-enabled projects. For Non-ARC use v0.2.1.
 
 ![screenshot](https://github.com/cbess/AutoScrollLabel/raw/master/AutoScrollLabelDemo/screenshot.png)
 ![image](http://a549.phobos.apple.com/us/r1000/071/Purple/v4/19/6f/c4/196fc40b-2fb4-975b-5abe-ea42850a061e/mzl.kpehwyik.320x480-75.jpg)
