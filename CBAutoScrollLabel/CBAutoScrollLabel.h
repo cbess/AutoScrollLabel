@@ -43,6 +43,8 @@ typedef enum  {
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
+@property (nonatomic) BOOL blinkStatus;
+@property (nonatomic) int blinkTimer;
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
@@ -50,7 +52,8 @@ typedef enum  {
  */
 - (void)refreshLabels;
 
-
+-(void)timer;
+-(void)blink;
 /**
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
