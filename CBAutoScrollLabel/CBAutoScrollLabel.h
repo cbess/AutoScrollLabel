@@ -43,8 +43,12 @@ typedef enum  {
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
+<<<<<<< HEAD
 @property (nonatomic) BOOL blinkStatus;
 @property (nonatomic) int blinkTimer;
+=======
+@property (nonatomic) BOOL blinking;
+>>>>>>> f8e89435f7d828b0c374f5719aea9cabab506494
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
@@ -73,4 +77,11 @@ typedef enum  {
  * register the notifications once.
  */
 - (void)observeApplicationNotifications;
+
+#pragma mark Blinking
+
+-(void)timer;
+-(void)blink;
+
+
 @end
