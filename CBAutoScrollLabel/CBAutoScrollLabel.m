@@ -52,6 +52,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize shadowOffset;
 @synthesize textAlignment;
 @synthesize scrolling = _scrolling;
+@synthesize blinking;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -436,5 +437,31 @@ static void each_object(NSArray *objects, void (^block)(id object))
     [self performSelector:@selector(refreshLabels) withObject:nil afterDelay:.1f];
     [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
 }
+
+#pragma mark - Blinking Text Stuff
+
+// Amy's Work V
+
+-(void)setBlinking:(BOOL)blinking {
+    if (blinking) {
+        [self timer];
+    }
+}
+
+-(void)blink{
+    if(blinking == FALSE){
+        self.hidden=NO;
+        blinking = TRUE;
+    }else {
+        self.hidden=YES;
+        blinking = FALSE;
+    }
+}
+
+-(void)timer{
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)(10.0 / 60.0)  target:self selector:@selector(blink) userInfo:nil repeats:TRUE];
+}
+
+// Amy's Work ^
 
 @end
