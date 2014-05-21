@@ -52,12 +52,11 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize shadowOffset;
 @synthesize textAlignment;
 @synthesize scrolling = _scrolling;
-<<<<<<< HEAD
+
 @synthesize blinkStatus;
 @synthesize blinkTimer;
-=======
 @synthesize blinking;
->>>>>>> f8e89435f7d828b0c374f5719aea9cabab506494
+
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -443,15 +442,6 @@ static void each_object(NSArray *objects, void (^block)(id object))
     [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
 }
 
-<<<<<<< HEAD
-// Amy's Work V
-
--(void)setBlinkStatus:(BOOL)blinkStatus {
-    if (blinkStatus == TRUE) {
-        [self timer];
-    }
-        
-}
 
 -(void)blink{
     if(blinkStatus == FALSE){
@@ -464,35 +454,18 @@ static void each_object(NSArray *objects, void (^block)(id object))
 }
 
 
-
--(void)timer{
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)(1)  target:self selector:@selector(blink) userInfo:nil repeats:TRUE];
-=======
-#pragma mark - Blinking Text Stuff
-
-// Amy's Work V
-
 -(void)setBlinking:(BOOL)blinking {
     if (blinking) {
         [self timer];
     }
+    
 }
 
--(void)blink{
-    if(blinking == FALSE){
-        self.hidden=NO;
-        blinking = TRUE;
-    }else {
-        self.hidden=YES;
-        blinking = FALSE;
-    }
-}
 
 -(void)timer{
-    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)(10.0 / 60.0)  target:self selector:@selector(blink) userInfo:nil repeats:TRUE];
->>>>>>> f8e89435f7d828b0c374f5719aea9cabab506494
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)(1)  target:self selector:@selector(blink) userInfo:nil repeats:TRUE];
 }
-
-// Amy's Work ^
-
+    
+    
 @end
+

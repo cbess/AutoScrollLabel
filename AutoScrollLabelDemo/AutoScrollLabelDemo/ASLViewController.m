@@ -22,14 +22,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-<<<<<<< HEAD
+
     self.autoScrollLabel.blinkStatus = YES;
    // self.autoScrollLabel.blinkTimer = 2;
-=======
+
     
     self.autoScrollLabel.blinking = YES;
-    
->>>>>>> f8e89435f7d828b0c374f5719aea9cabab506494
+
     // setup the auto scroll label
     self.autoScrollLabel.text = @"This text may be clipped, but now it will be scrolled. This text will be scrolled even after device rotation.";
     self.autoScrollLabel.textColor = [UIColor blueColor];
