@@ -53,6 +53,11 @@ static void each_object(NSArray *objects, void (^block)(id object))
 @synthesize textAlignment;
 @synthesize scrolling = _scrolling;
 
+@synthesize blinkStatus;
+@synthesize blinkTimer;
+@synthesize blinking;
+
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if ((self = [super initWithCoder:aDecoder]))
@@ -437,4 +442,30 @@ static void each_object(NSArray *objects, void (^block)(id object))
     [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
 }
 
+
+-(void)blink{
+    if(blinkStatus == FALSE){
+        self.hidden=NO;
+        blinkStatus = TRUE;
+    }else {
+        self.hidden=YES;
+        blinkStatus = FALSE;
+    }
+}
+
+
+-(void)setBlinking:(BOOL)blinking {
+    if (blinking) {
+        [self timer];
+    }
+    
+}
+
+
+-(void)timer{
+    [NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)(1)  target:self selector:@selector(blink) userInfo:nil repeats:TRUE];
+}
+    
+    
 @end
+

@@ -44,13 +44,19 @@ typedef enum  {
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 
+@property (nonatomic) BOOL blinkStatus;
+@property (nonatomic) int blinkTimer;
+@property (nonatomic) BOOL blinking;
+
+
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
  * @discussion Uses [scrollLabelIfNeeded] internally.
  */
 - (void)refreshLabels;
 
-
+-(void)timer;
+-(void)blink;
 /**
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
@@ -70,4 +76,11 @@ typedef enum  {
  * register the notifications once.
  */
 - (void)observeApplicationNotifications;
+
+#pragma mark Blinking
+
+-(void)timer;
+-(void)blink;
+
+
 @end
