@@ -365,6 +365,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.mainLabel.hidden = NO;
         self.mainLabel.textAlignment = self.textAlignment;
         
+        // remove scroll animation
+        [self.scrollView.layer removeAllAnimations];
+
         [self applyGradientMaskForFadeLength:0 enableFade:NO];
 	}
 }
