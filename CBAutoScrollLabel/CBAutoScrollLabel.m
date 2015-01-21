@@ -113,6 +113,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
+	
+    [self refreshLabels];
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
 }
 
@@ -291,7 +293,8 @@ static void each_object(NSArray *objects, void (^block)(id object))
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
-    
+    [self.scrollView.layer removeAllAnimations];
+	
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + self.labelSpacing, 0));
     
@@ -365,6 +368,9 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.mainLabel.hidden = NO;
         self.mainLabel.textAlignment = self.textAlignment;
         
+        // remove scroll animation
+        [self.scrollView.layer removeAllAnimations];
+
         [self applyGradientMaskForFadeLength:0 enableFade:NO];
 	}
 }
