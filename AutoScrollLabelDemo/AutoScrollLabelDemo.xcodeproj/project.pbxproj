@@ -14,7 +14,7 @@
 		1E6EE5C915991EDE00F94499 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5C815991EDE00F94499 /* main.m */; };
 		1E6EE5CD15991EDE00F94499 /* ASLAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */; };
 		1E6EE5D015991EDE00F94499 /* ASLViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EE5CF15991EDE00F94499 /* ASLViewController.m */; };
-		1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E6EE5D115991EDE00F94499 /* ASLViewController.xib */; };
+		921F8F0519E11A6D003E9CDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 921F8F0319E11A6D003E9CDE /* Main.storyboard */; };
 		92BA4B2916E1CCBF00770787 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92BA4B2816E1CCBF00770787 /* QuartzCore.framework */; };
 		92BA4B2B16E1CDA000770787 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 92BA4B2A16E1CDA000770787 /* Default-568h@2x.png */; };
 		92BA4B3216E4636F00770787 /* CBAutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BA4B3116E4636F00770787 /* CBAutoScrollLabel.m */; };
@@ -33,7 +33,7 @@
 		1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASLAppDelegate.m; sourceTree = "<group>"; };
 		1E6EE5CE15991EDE00F94499 /* ASLViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASLViewController.h; sourceTree = "<group>"; };
 		1E6EE5CF15991EDE00F94499 /* ASLViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASLViewController.m; sourceTree = "<group>"; };
-		1E6EE5D215991EDE00F94499 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ASLViewController.xib; sourceTree = "<group>"; };
+		921F8F0419E11A6D003E9CDE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		92BA4B2816E1CCBF00770787 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		92BA4B2A16E1CDA000770787 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		92BA4B3016E4636F00770787 /* CBAutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CBAutoScrollLabel.h; sourceTree = "<group>"; };
@@ -91,7 +91,7 @@
 				1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */,
 				1E6EE5CE15991EDE00F94499 /* ASLViewController.h */,
 				1E6EE5CF15991EDE00F94499 /* ASLViewController.m */,
-				1E6EE5D115991EDE00F94499 /* ASLViewController.xib */,
+				921F8F0319E11A6D003E9CDE /* Main.storyboard */,
 				1E6EE5C315991EDE00F94499 /* Supporting Files */,
 			);
 			path = AutoScrollLabelDemo;
@@ -146,7 +146,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = ASL;
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "C. Bess";
 			};
 			buildConfigurationList = 1E6EE5B215991EDE00F94499 /* Build configuration list for PBXProject "AutoScrollLabelDemo" */;
@@ -172,8 +172,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E6EE5C715991EDE00F94499 /* InfoPlist.strings in Resources */,
-				1E6EE5D315991EDE00F94499 /* ASLViewController.xib in Resources */,
 				92BA4B2B16E1CDA000770787 /* Default-568h@2x.png in Resources */,
+				921F8F0519E11A6D003E9CDE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,12 +202,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		1E6EE5D115991EDE00F94499 /* ASLViewController.xib */ = {
+		921F8F0319E11A6D003E9CDE /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1E6EE5D215991EDE00F94499 /* en */,
+				921F8F0419E11A6D003E9CDE /* en */,
 			);
-			name = ASLViewController.xib;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -217,14 +217,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -234,10 +237,14 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -246,20 +253,26 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -273,6 +286,7 @@
 				GCC_PREFIX_HEADER = "AutoScrollLabelDemo/AutoScrollLabelDemo-Prefix.pch";
 				INFOPLIST_FILE = "AutoScrollLabelDemo/AutoScrollLabelDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -284,6 +298,7 @@
 				GCC_PREFIX_HEADER = "AutoScrollLabelDemo/AutoScrollLabelDemo-Prefix.pch";
 				INFOPLIST_FILE = "AutoScrollLabelDemo/AutoScrollLabelDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
