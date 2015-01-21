@@ -94,7 +94,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 	self.pauseInterval = kDefaultPauseTime;
 	self.labelSpacing = kDefaultLabelBufferSpace;
     self.textAlignment = NSTextAlignmentLeft;
-    self.animationOptions = UIViewAnimationOptionCurveEaseIn;
+    self.animationOptions = UIViewAnimationOptionCurveLinear;
 	self.scrollView.showsVerticalScrollIndicator = NO;
 	self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.scrollEnabled = NO;
@@ -113,7 +113,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)setFrame:(CGRect)frame
 {
     [super setFrame:frame];
-	
+
     [self refreshLabels];
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
 }
@@ -293,6 +293,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
+
     [self.scrollView.layer removeAllAnimations];
 	
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
@@ -323,16 +324,12 @@ static void each_object(NSArray *objects, void (^block)(id object))
 - (void)refreshLabels
 {
 	__block float offset = 0;
-	
-    // calculate the label size
-    CGSize labelSize = [self.mainLabel.text sizeWithFont:self.mainLabel.font
-                                       constrainedToSize:CGSizeMake(CGFLOAT_MAX, CGRectGetHeight(self.bounds))];
-
     each_object(self.labels, ^(UILabel *label) {
+        [label sizeToFit];
+        
         CGRect frame = label.frame;
-        frame.origin.x = offset;
+        frame.origin = CGPointMake(offset, 0);
         frame.size.height = CGRectGetHeight(self.bounds);
-        frame.size.width = labelSize.width + 2.f /*Magic number*/;
         label.frame = frame;
         
         // Recenter label vertically within the scroll view
@@ -342,9 +339,10 @@ static void each_object(NSArray *objects, void (^block)(id object))
     });
     
 	self.scrollView.contentOffset = CGPointZero;
+    [self.scrollView.layer removeAllAnimations];
 
 	// if the label is bigger than the space allocated, then it should scroll
-	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds) )
+	if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds))
     {
         CGSize size;
         size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + self.labelSpacing;
@@ -368,7 +366,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
         self.mainLabel.hidden = NO;
         self.mainLabel.textAlignment = self.textAlignment;
         
-        // remove scroll animation
+        // cleanup animation
         [self.scrollView.layer removeAllAnimations];
 
         [self applyGradientMaskForFadeLength:0 enableFade:NO];
@@ -429,7 +427,7 @@ static void each_object(NSArray *objects, void (^block)(id object))
     }
     else
     {
-        // Remove gradient mask for 0.0f lenth fade length
+        // Remove gradient mask for 0.0f length fade length
         self.layer.mask = nil;
     }
 }

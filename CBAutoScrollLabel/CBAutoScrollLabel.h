@@ -50,7 +50,6 @@ typedef enum  {
  */
 - (void)refreshLabels;
 
-
 /**
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
