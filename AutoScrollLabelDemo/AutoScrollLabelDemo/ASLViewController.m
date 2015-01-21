@@ -17,10 +17,8 @@
 @end
 
 @implementation ASLViewController
-@synthesize autoScrollLabel;
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     // setup the auto scroll label

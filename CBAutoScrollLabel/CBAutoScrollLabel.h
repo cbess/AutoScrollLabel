@@ -14,26 +14,29 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum  {
-	CBAutoScrollDirectionRight,
-	CBAutoScrollDirectionLeft,
-} CBAutoScrollDirection;
+typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
+    CBAutoScrollDirectionRight,
+    CBAutoScrollDirectionLeft
+};
 
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
+
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 @property (nonatomic) float scrollSpeed; // pixels per second
 @property (nonatomic) NSTimeInterval pauseInterval;
 @property (nonatomic) NSInteger labelSpacing; // pixels
+
 /**
  * The animation options used when scrolling the UILabels.
  * @discussion UIViewAnimationOptionAllowUserInteraction is always applied to the animations.
  */
 @property (nonatomic) UIViewAnimationOptions animationOptions;
+
 /**
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-@property (nonatomic, assign) CGFloat fadeLength;
+@property (nonatomic) CGFloat fadeLength;
 
 // UILabel properties
 @property (nonatomic, copy) NSString *text;
@@ -69,4 +72,5 @@ typedef enum  {
  * register the notifications once.
  */
 - (void)observeApplicationNotifications;
+
 @end
