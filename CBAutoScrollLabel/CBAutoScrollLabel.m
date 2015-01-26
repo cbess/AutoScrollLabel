@@ -91,11 +91,22 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-
+- (void) updateLabelsOnFrameChange {
     [self refreshLabels];
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
+}
+
+- (void)setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    
+    [self updateLabelsOnFrameChange];
+}
+
+// For autolayout
+- (void)setBounds:(CGRect)bounds {
+    [super setBounds:bounds];
+    
+    [self updateLabelsOnFrameChange];
 }
 
 #pragma mark - Properties
@@ -177,6 +188,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     EACH_LABEL(font, font)
 
     [self refreshLabels];
+    [self invalidateIntrinsicContentSize];
 }
 
 - (UIFont *)font {
@@ -209,6 +221,12 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (CGSize)shadowOffset {
     return self.mainLabel.shadowOffset;
+}
+
+#pragma mark - Autolayout
+
+- (CGSize)intrinsicContentSize {
+    return CGSizeMake(0.0f, [self.mainLabel intrinsicContentSize].height);
 }
 
 #pragma mark - Misc
