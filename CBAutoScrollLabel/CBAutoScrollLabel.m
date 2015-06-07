@@ -265,6 +265,9 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
     [self.scrollView.layer removeAllAnimations];
 
+    if (self.scrolling == NO)
+        return ;
+    
     BOOL doScrollLeft = (self.scrollDirection == CBAutoScrollDirectionLeft);
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + self.labelSpacing, 0));
 
@@ -277,7 +280,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
          // adjust offset
          self.scrollView.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + self.labelSpacing, 0) : CGPointZero);
      } completion: ^(BOOL finished) {
-         _scrolling = NO;
+//         _scrolling = NO;
 
          // remove the left shadow
          [self applyGradientMaskForFadeLength:self.fadeLength enableFade:NO];
@@ -287,6 +290,12 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
              [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil];
          }
      }];
+}
+
+-(void)setScrolling:(BOOL)scrolling
+{
+    _scrolling = scrolling;
+    [self scrollLabelIfNeeded];
 }
 
 - (void)refreshLabels {
