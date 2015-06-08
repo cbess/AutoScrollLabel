@@ -40,4 +40,20 @@
     [self.navigationBarScrollLabel observeApplicationNotifications];
 }
 
+- (IBAction)stopScrollingAfterCyle:(id)sender {
+    [self.autoScrollLabel stopScrollingAfterCurrentCycle];
+}
+
+- (IBAction)stopScrollingImmediately:(id)sender {
+    [self.autoScrollLabel stopScrollingImmediatelyAnimated:NO];
+}
+
+- (IBAction)stopScrollingImmediatelyAnimated:(id)sender {
+    [self.autoScrollLabel stopScrollingImmediatelyAnimated:YES];
+}
+
+- (IBAction)restartScrolling:(id)sender {
+    [self.autoScrollLabel reenableAutoScroll];
+}
+
 @end
