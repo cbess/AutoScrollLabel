@@ -35,6 +35,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 @property (nonatomic, strong) NSArray *labels;
 @property (nonatomic, strong, readonly) UILabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, assign, readwrite) BOOL shouldScroll;
 
 @end
 
@@ -84,6 +85,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     self.backgroundColor = [UIColor clearColor];
     self.clipsToBounds = YES;
     self.fadeLength = kDefaultFadeLength;
+    self.shouldScroll = YES;
 }
 
 - (void)dealloc {
@@ -253,7 +255,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)scrollLabelIfNeeded {
-    if (!self.text.length)
+    if (!self.text.length || !self.shouldScroll)
         return;
 
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
@@ -287,6 +289,23 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
              [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil];
          }
      }];
+}
+
+- (void)stopScrollingAfterCurrentCycle {
+    self.shouldScroll = NO;
+}
+
+- (void)stopScrollingImmediatelyAnimated:(BOOL)animated {
+    self.shouldScroll = NO;
+    [self.scrollView.layer removeAllAnimations];
+    [self.scrollView setContentOffset:CGPointZero animated:animated];
+}
+
+- (void)reenableAutoScroll {
+    self.shouldScroll = YES;
+    if (!self.scrolling) {
+        [self scrollLabelIfNeeded];
+    }
 }
 
 - (void)refreshLabels {
