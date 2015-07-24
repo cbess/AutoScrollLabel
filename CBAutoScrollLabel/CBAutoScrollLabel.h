@@ -36,6 +36,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
+@property (nonatomic, assign, readonly) BOOL shouldScroll;
 @property (nonatomic) CGFloat fadeLength;
 
 // UILabel properties
@@ -64,6 +65,22 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
  */
 - (void)scrollLabelIfNeeded;
+
+/**
+ * Stops auto-scroll after the current cycle has been finished.
+ */
+- (void)stopScrollingAfterCurrentCycle;
+
+/**
+ * Stops auto-scroll immediately and resets the scroll position to the start.
+ * @param animated Defines whether the scrolling to the beginning should be animated or not.
+ */
+- (void)stopScrollingImmediatelyAnimated:(BOOL)animated;
+
+/**
+ * (Re)enables auto-scroll. If auto-scroll is already enabled, calling this method has no effect.
+ */
+- (void)reenableAutoScroll;
 
 /**
  * Observes UIApplication state notifications to auto-restart scrolling and watch for 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2aA-IC-rYH">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E26a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2aA-IC-rYH">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -17,24 +18,81 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="No scrolling here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uUq-eg-6Qz">
-                                <rect key="frame" x="20" y="196" width="280" height="21"/>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No scrolling here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uUq-eg-6Qz">
+                                <rect key="frame" x="20" y="196" width="280" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bYm-Ms-nJx" customClass="CBAutoScrollLabel">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bYm-Ms-nJx" customClass="CBAutoScrollLabel">
                                 <rect key="frame" x="20" y="105" width="280" height="42"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="42" id="X6E-mY-ub9"/>
+                                </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sc9-NW-LbX">
+                                <rect key="frame" x="75" y="225" width="170" height="30"/>
+                                <state key="normal" title="Stop scrolling after cycle">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopScrollingAfterCyle:" destination="Kmn-b1-dPT" eventType="touchUpInside" id="eDx-XU-zd7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKS-N3-NlF">
+                                <rect key="frame" x="69" y="263" width="181" height="30"/>
+                                <state key="normal" title="Stop scrolling immediately">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopScrollingImmediately:" destination="Kmn-b1-dPT" eventType="touchUpInside" id="kkY-uv-0GO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UVj-kv-cp6">
+                                <rect key="frame" x="31" y="301" width="257" height="30"/>
+                                <state key="normal" title="Stop scrolling immediately (animated)">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopScrollingImmediatelyAnimated:" destination="Kmn-b1-dPT" eventType="touchUpInside" id="edL-3N-t3n"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z4v-wW-U0e">
+                                <rect key="frame" x="90" y="339" width="137" height="30"/>
+                                <state key="normal" title="(Re)enable Scrolling">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartScrolling:" destination="Kmn-b1-dPT" eventType="touchUpInside" id="nLo-zY-dkm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.75" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bYm-Ms-nJx" firstAttribute="leading" secondItem="eDd-wf-uuK" secondAttribute="leadingMargin" constant="4" id="6RO-Yy-Wur"/>
+                            <constraint firstItem="bYm-Ms-nJx" firstAttribute="width" secondItem="eDd-wf-uuK" secondAttribute="width" priority="750" id="7rd-Jw-Z5y"/>
+                            <constraint firstItem="uUq-eg-6Qz" firstAttribute="top" secondItem="bYm-Ms-nJx" secondAttribute="bottom" constant="49" id="B9L-OY-aSu"/>
+                            <constraint firstAttribute="centerX" secondItem="Sc9-NW-LbX" secondAttribute="centerX" id="BR6-7P-3Un"/>
+                            <constraint firstItem="Sc9-NW-LbX" firstAttribute="top" secondItem="uUq-eg-6Qz" secondAttribute="bottom" constant="8.5" id="Cv3-p3-V6a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="uUq-eg-6Qz" secondAttribute="trailing" constant="4" id="D0O-wN-cSG"/>
+                            <constraint firstAttribute="centerX" secondItem="z4v-wW-U0e" secondAttribute="centerX" constant="1" id="Ikq-Ql-hjb"/>
+                            <constraint firstAttribute="centerX" secondItem="sKS-N3-NlF" secondAttribute="centerX" id="JVb-pX-i0O"/>
+                            <constraint firstItem="UVj-kv-cp6" firstAttribute="top" secondItem="sKS-N3-NlF" secondAttribute="bottom" constant="8" id="Neg-Yy-OBE"/>
+                            <constraint firstItem="z4v-wW-U0e" firstAttribute="top" secondItem="UVj-kv-cp6" secondAttribute="bottom" constant="8" id="WYY-fm-vcu"/>
+                            <constraint firstItem="uUq-eg-6Qz" firstAttribute="leading" secondItem="eDd-wf-uuK" secondAttribute="leadingMargin" constant="4" id="Wn8-BU-tKQ"/>
+                            <constraint firstAttribute="centerX" secondItem="UVj-kv-cp6" secondAttribute="centerX" id="lOt-Dn-gTb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="bYm-Ms-nJx" secondAttribute="trailing" constant="4" id="lxa-F2-cOQ"/>
+                            <constraint firstItem="bYm-Ms-nJx" firstAttribute="top" secondItem="GR8-4d-l6Y" secondAttribute="bottom" constant="41" id="tKl-2x-dIN"/>
+                            <constraint firstItem="sKS-N3-NlF" firstAttribute="top" secondItem="Sc9-NW-LbX" secondAttribute="bottom" constant="8" id="uFT-5v-3kd"/>
+                            <constraint firstAttribute="width" secondItem="uUq-eg-6Qz" secondAttribute="width" priority="750" id="xhJ-eE-oyx"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qkc-jm-XpV">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="BZs-Na-law"/>
                         <view key="titleView" contentMode="scaleToFill" id="cVi-6H-3sM" customClass="CBAutoScrollLabel">
-                            <rect key="frame" x="75" y="6" width="170" height="33"/>
+                            <rect key="frame" x="75" y="5.5" width="170" height="33"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         </view>
