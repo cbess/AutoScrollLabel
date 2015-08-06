@@ -22,9 +22,9 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
-@property (nonatomic) float scrollSpeed; // pixels per second
-@property (nonatomic) NSTimeInterval pauseInterval;
-@property (nonatomic) NSInteger labelSpacing; // pixels
+@property (nonatomic) float scrollSpeed; // pixels per second, defaults to 30
+@property (nonatomic) NSTimeInterval pauseInterval; // defaults to 1.5
+@property (nonatomic) NSInteger labelSpacing; // pixels, defaults to 20
 
 /**
  * The animation options used when scrolling the UILabels.
@@ -36,14 +36,14 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-@property (nonatomic) CGFloat fadeLength;
+@property (nonatomic) CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
-@property (nonatomic, copy) NSString *text;
-@property (nonatomic, copy) NSAttributedString *attributedText;
-@property (nonatomic, strong) UIColor *textColor;
-@property (nonatomic, strong) UIFont *font;
-@property (nonatomic, strong) UIColor *shadowColor;
+@property (nonatomic, copy, nullable) NSString * text;
+@property (nonatomic, copy, nullable) NSAttributedString * attributedText;
+@property (nonatomic, strong, nonnull) UIColor *textColor;
+@property (nonatomic, strong, nonnull) UIFont *font;
+@property (nonatomic, strong, nullable) UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 
@@ -57,8 +57,8 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
  */
-- (void)setText:(NSString *)text refreshLabels:(BOOL)refresh;
-- (void)setAttributedText:(NSAttributedString *)theText refreshLabels:(BOOL)refresh;
+- (void)setText:(NSString * __nullable)text refreshLabels:(BOOL)refresh;
+- (void)setAttributedText:(NSAttributedString * __nullable)theText refreshLabels:(BOOL)refresh;
 
 /**
  * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
