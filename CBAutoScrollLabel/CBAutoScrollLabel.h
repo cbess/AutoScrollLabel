@@ -14,6 +14,7 @@
 
 #import <UIKit/UIKit.h>
 
+/// Specifies the direction of the scroll
 typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
     CBAutoScrollDirectionRight,
     CBAutoScrollDirectionLeft
@@ -39,8 +40,8 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
-@property (nonatomic, copy, nullable) NSString * text;
-@property (nonatomic, copy, nullable) NSAttributedString * attributedText;
+@property (nonatomic, copy, nullable) NSString *text;
+@property (nonatomic, copy, nullable) NSAttributedString *attributedText;
 @property (nonatomic, strong, nonnull) UIColor *textColor;
 @property (nonatomic, strong, nonnull) UIFont *font;
 @property (nonatomic, strong, nullable) UIColor *shadowColor;
@@ -58,10 +59,14 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
  */
 - (void)setText:(NSString * __nullable)text refreshLabels:(BOOL)refresh;
+
+/**
+ Set the attributed text and refresh labels, if needed.
+ */
 - (void)setAttributedText:(NSAttributedString * __nullable)theText refreshLabels:(BOOL)refresh;
 
 /**
- * Initiates auto-scroll if the label width exceeds the bounds of the scrollview.
+ * Initiates auto-scroll, if the label width exceeds the bounds of the scrollview.
  */
 - (void)scrollLabelIfNeeded;
 
