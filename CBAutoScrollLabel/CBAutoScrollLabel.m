@@ -93,14 +93,14 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
-    
+
     [self didChangeFrame];
 }
 
 // For autolayout
 - (void)setBounds:(CGRect)bounds {
     [super setBounds:bounds];
-    
+
     [self didChangeFrame];
 }
 
@@ -240,11 +240,14 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 
+#ifndef TARGET_OS_TV
     // refresh labels when interface orientation is changed
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onUIApplicationDidChangeStatusBarOrientationNotification:)
                                                  name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
+#endif
+
 }
 
 - (void)enableShadow {
@@ -294,15 +297,15 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
     each_object(self.labels, ^(UILabel *label) {
         [label sizeToFit];
-        
+
         CGRect frame = label.frame;
         frame.origin = CGPointMake(offset, 0);
         frame.size.height = CGRectGetHeight(self.bounds);
         label.frame = frame;
-        
+
         // Recenter label vertically within the scroll view
         label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
-        
+
         offset += CGRectGetWidth(label.bounds) + self.labelSpacing;
     });
 
