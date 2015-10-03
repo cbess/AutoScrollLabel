@@ -218,6 +218,20 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     return self.mainLabel.shadowOffset;
 }
 
+- (void)setPaused:(BOOL)paused {
+    _paused = paused;
+
+    if (_paused) {
+        [self.scrollView.layer removeAllAnimations];
+        self.scrollView.contentOffset = CGPointZero;
+    }
+    else {
+        if (!self.scrolling) {
+            [self scrollLabelIfNeeded];
+        }
+    }
+}
+
 #pragma mark - Autolayout
 
 - (CGSize)intrinsicContentSize {
@@ -256,7 +270,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)scrollLabelIfNeeded {
-    if (!self.text.length)
+    if (!self.text.length || self.paused)
         return;
 
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);

@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
+@property (nonatomic, readwrite) BOOL paused;
 @property (nonatomic) CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
