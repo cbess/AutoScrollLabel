@@ -1,12 +1,12 @@
 Pod::Spec.new do |s|
   s.name     = 'AutoScrollLabel'
-  s.version  = '0.4.2'
+  s.version  = '0.4.3'
   s.summary  = 'A marquee like scrolling UILabel, think iPod track title scrolling. Provides edge fading, speed adjustment, scroll direction, etc.'
   s.homepage = 'https://github.com/cbess/AutoScrollLabel'
 
   s.license  = { :type => 'MIT', :file => 'LICENSE.txt' }
   s.author   = { 'Christopher Bess' => 'cbess@quantumquinn.com' }
-  s.source   = { :git => 'https://github.com/cbess/AutoScrollLabel.git', :tag => 'v0.4.2' }
+  s.source   = { :git => 'https://github.com/cbess/AutoScrollLabel.git', :tag => 'v0.4.3' }
 
   s.ios.deployment_target = '7.0'
   s.tvos.deployment_target = '9.0'
