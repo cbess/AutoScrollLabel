@@ -4,7 +4,7 @@ A UILabel with auto scrolling for text that may be clipped by the view. Provides
 
 CocoaPod: `AutoScrollLabel`
 
-iOS 7 and greater. For Non-ARC use v0.2.1.
+iOS 7, tvOS 9 and greater. For Non-ARC use v0.2.1.
 
 ```objc
 #import <AutoScrollLabel/CBAutoScrollLabel.h>
@@ -30,7 +30,7 @@ Usage:
     autoScrollLabel.labelSpacing = 35; // distance between start and end labels
     autoScrollLabel.pauseInterval = 3.7; // seconds of pause before scrolling starts again
     autoScrollLabel.scrollSpeed = 30; // pixels per second
-    autoScrollLabel.textAlignment = UITextAlignmentCenter; // centers text when no auto-scrolling is applied
+    autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text when no auto-scrolling is applied
     autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 to disable
 
 #### License
