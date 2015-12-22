@@ -104,6 +104,14 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     [self didChangeFrame];
 }
 
+- (void)didMoveToWindow {
+    [super didMoveToWindow];
+    
+    if (self.window) {
+        [self scrollLabelIfNeeded];
+    }
+}
+
 #pragma mark - Properties
 
 - (UIScrollView *)scrollView {
@@ -221,7 +229,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 #pragma mark - Autolayout
 
 - (CGSize)intrinsicContentSize {
-    return CGSizeMake(0.0f, [self.mainLabel intrinsicContentSize].height);
+    return CGSizeMake(0, [self.mainLabel intrinsicContentSize].height);
 }
 
 #pragma mark - Misc
@@ -279,7 +287,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     [UIView animateWithDuration:duration delay:self.pauseInterval options:self.animationOptions | UIViewAnimationOptionAllowUserInteraction animations:^{
          // adjust offset
          self.scrollView.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + self.labelSpacing, 0) : CGPointZero);
-     } completion: ^(BOOL finished) {
+     } completion:^(BOOL finished) {
          _scrolling = NO;
 
          // remove the left shadow
@@ -341,7 +349,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     }
 }
 
-// bounds or frame has been changeds
+// bounds or frame has been changed
 - (void)didChangeFrame {
     [self refreshLabels];
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
