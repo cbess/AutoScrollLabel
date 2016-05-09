@@ -36,6 +36,8 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 @property (nonatomic, strong, readonly) UILabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
+@property (nonatomic, readwrite) BOOL scrollingNeeded;
+
 @end
 
 @implementation CBAutoScrollLabel
@@ -113,6 +115,11 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 #pragma mark - Properties
+
+- (void)setHorizontalOffset:(CGFloat)horizontalOffset {
+    _horizontalOffset = horizontalOffset;
+    [self didChangeFrame];
+}
 
 - (UIScrollView *)scrollView {
     if (_scrollView == nil) {
@@ -317,11 +324,19 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
         offset += CGRectGetWidth(label.bounds) + self.labelSpacing;
     });
 
-    self.scrollView.contentOffset = CGPointZero;
+    // Set the horizontal offset only if the label fits with it
+    if (CGRectGetWidth(self.mainLabel.bounds) - (self.horizontalOffset * 2) < CGRectGetWidth(self.bounds)) {
+        self.scrollView.contentOffset = CGPointMake(self.horizontalOffset, 0);
+    } else {
+        self.scrollView.contentOffset = CGPointZero;
+    }
     [self.scrollView.layer removeAllAnimations];
-
+    
     // if the label is bigger than the space allocated, then it should scroll
     if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds)) {
+    
+        self.scrollingNeeded = YES;
+        
         CGSize size;
         size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + self.labelSpacing;
         size.height = CGRectGetHeight(self.bounds);
@@ -333,6 +348,9 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
         [self scrollLabelIfNeeded];
     } else {
+        
+        self.scrollingNeeded = NO;
+        
         // Hide the other labels
         EACH_LABEL(hidden, (self.mainLabel != label))
 
