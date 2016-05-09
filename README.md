@@ -36,3 +36,15 @@ autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 
 #### License
 
 MIT - Copyright (c) 2013 Christopher Bess
+
+#### Modifications by Ludvig Eriksson
+
+- Ability to offset the label horizontally. 
+For example, if used in a navigation bar with bar button items on the side, 
+the label might be shifted horizontally if it's not big enough to scroll.
+The property horizontalOffset can now be used to shift it back. If, however, 
+this back shift would mean the label needs scrolling, it's ignored (i.e. 
+only enable scrolling as a last resort).
+
+- Added scrollingNeeded property to be able to see if the label fits or
+if it needs scrolling.
