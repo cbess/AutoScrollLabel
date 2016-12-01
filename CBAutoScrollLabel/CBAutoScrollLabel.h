@@ -40,11 +40,11 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
-@property (nonatomic, copy, nullable) NSString *text;
+@property (nonatomic, copy, nullable) IBInspectable NSString *text;
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
-@property (nonatomic, strong, nonnull) UIColor *textColor;
+@property (nonatomic, strong, nonnull) IBInspectable UIColor *textColor;
 @property (nonatomic, strong, nonnull) UIFont *font;
-@property (nonatomic, strong, nullable) UIColor *shadowColor;
+@property (nonatomic, strong, nullable) IBInspectable UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 

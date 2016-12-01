@@ -87,6 +87,7 @@ IB_DESIGNABLE
     self.fadeLength = kDefaultFadeLength;
 }
 
+
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
