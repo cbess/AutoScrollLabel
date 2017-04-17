@@ -1,4 +1,4 @@
-##AutoScrollLabel
+## AutoScrollLabel
 
 A UILabel with auto scrolling for text that may be clipped by the view. Provides edge fading, speed adjustment, scroll direction, etc.  
 
