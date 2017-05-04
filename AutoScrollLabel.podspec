@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name     = 'AutoScrollLabel'
-  s.version  = '0.4.4'
+  s.version  = '0.4.4.1'
   s.summary  = 'A marquee like scrolling UILabel, think iPod track title scrolling. Provides edge fading, speed adjustment, scroll direction, etc.'
   s.homepage = 'https://github.com/cbess/AutoScrollLabel'
 
