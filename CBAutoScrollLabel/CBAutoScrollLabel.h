@@ -72,7 +72,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 - (void)scrollLabelIfNeeded;
 
 /**
- * Observes UIApplication state notifications to auto-restart scrolling and watch for 
+ * Observes UIApplication state notifications to auto-restart scrolling and watch for
  * orientation changes to refresh the labels.
  * @discussion Must be called to observe the notifications. Calling multiple times will still only
  * register the notifications once.
