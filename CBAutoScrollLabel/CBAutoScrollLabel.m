@@ -28,7 +28,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 // shortcut to change each label attribute value
-#define EACH_LABEL(ATTR, VALUE) each_object(self.labels, ^(UILabel *label) { label.ATTR = VALUE; });
+#define EACH_LABEL(ARRAY, ATTR, VALUE) each_object(ARRAY, ^(UILabel *label) { label.ATTR = VALUE; });
 
 @interface CBAutoScrollLabel ()
 
@@ -147,7 +147,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     if ([theText isEqualToString:self.text])
         return;
     
-    EACH_LABEL(text, theText)
+    EACH_LABEL(self.labels, text, theText)
     
     if (refresh)
         [self refreshLabels];
@@ -166,7 +166,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     if ([theText.string isEqualToString:self.attributedText.string])
         return;
     
-    EACH_LABEL(attributedText, theText)
+    EACH_LABEL(self.labels, attributedText, theText)
     
     if (refresh)
         [self refreshLabels];
@@ -177,7 +177,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)setTextColor:(UIColor *)color {
-    EACH_LABEL(textColor, color)
+    EACH_LABEL(self.labels, textColor, color)
 }
 
 - (UIColor *)textColor {
@@ -188,7 +188,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     if (self.mainLabel.font == font)
         return;
     
-    EACH_LABEL(font, font)
+    EACH_LABEL(self.labels, font, font)
     
     [self refreshLabels];
     [self invalidateIntrinsicContentSize];
@@ -211,7 +211,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)setShadowColor:(UIColor *)color {
-    EACH_LABEL(shadowColor, color)
+    EACH_LABEL(self.labels, shadowColor, color)
 }
 
 - (UIColor *)shadowColor {
@@ -219,7 +219,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)setShadowOffset:(CGSize)offset {
-    EACH_LABEL(shadowOffset, offset)
+    EACH_LABEL(self.labels, shadowOffset, offset)
 }
 
 - (CGSize)shadowOffset {
@@ -311,51 +311,55 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)refreshLabels {
-    __block float offset = 0;
-    
-    each_object(self.labels, ^(UILabel *label) {
-        [label sizeToFit];
+    @synchronized (self) {
+        __block float offset = 0;
         
-        CGRect frame = label.frame;
-        frame.origin = CGPointMake(offset, 0);
-        frame.size.height = CGRectGetHeight(self.bounds);
-        label.frame = frame;
+        typeof(self) __weak weakSelf = self;
+        each_object(self.labels, ^(UILabel *label) {
+            typeof(weakSelf) __strong strongSelf = weakSelf;
+            [label sizeToFit];
+            
+            CGRect frame = label.frame;
+            frame.origin = CGPointMake(offset, 0);
+            frame.size.height = CGRectGetHeight(strongSelf.bounds);
+            label.frame = frame;
+            
+            // Recenter label vertically within the scroll view
+            label.center = CGPointMake(label.center.x, roundf(strongSelf.center.y - CGRectGetMinY(strongSelf.frame)));
+            
+            offset += CGRectGetWidth(label.bounds) + strongSelf.labelSpacing;
+        });
         
-        // Recenter label vertically within the scroll view
-        label.center = CGPointMake(label.center.x, roundf(self.center.y - CGRectGetMinY(self.frame)));
-        
-        offset += CGRectGetWidth(label.bounds) + self.labelSpacing;
-    });
-    
-    self.scrollView.contentOffset = CGPointZero;
-    [self.scrollView.layer removeAllAnimations];
-    
-    // if the label is bigger than the space allocated, then it should scroll
-    if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds)) {
-        CGSize size;
-        size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + self.labelSpacing;
-        size.height = CGRectGetHeight(self.bounds);
-        self.scrollView.contentSize = size;
-        
-        EACH_LABEL(hidden, NO)
-        
-        [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
-        
-        [self scrollLabelIfNeeded];
-    } else {
-        // Hide the other labels
-        EACH_LABEL(hidden, (self.mainLabel != label))
-        
-        // adjust the scroll view and main label
-        self.scrollView.contentSize = self.bounds.size;
-        self.mainLabel.frame = self.bounds;
-        self.mainLabel.hidden = NO;
-        self.mainLabel.textAlignment = self.textAlignment;
-        
-        // cleanup animation
+        self.scrollView.contentOffset = CGPointZero;
         [self.scrollView.layer removeAllAnimations];
         
-        [self applyGradientMaskForFadeLength:0 enableFade:NO];
+        // if the label is bigger than the space allocated, then it should scroll
+        if (CGRectGetWidth(self.mainLabel.bounds) > CGRectGetWidth(self.bounds)) {
+            CGSize size;
+            size.width = CGRectGetWidth(self.mainLabel.bounds) + CGRectGetWidth(self.bounds) + self.labelSpacing;
+            size.height = CGRectGetHeight(self.bounds);
+            self.scrollView.contentSize = size;
+            
+            EACH_LABEL(self.labels, hidden, NO)
+            
+            [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
+            
+            [self scrollLabelIfNeeded];
+        } else {
+            // Hide the other labels
+            EACH_LABEL(self.labels, hidden, (self.mainLabel != label))
+            
+            // adjust the scroll view and main label
+            self.scrollView.contentSize = self.bounds.size;
+            self.mainLabel.frame = self.bounds;
+            self.mainLabel.hidden = NO;
+            self.mainLabel.textAlignment = self.textAlignment;
+            
+            // cleanup animation
+            [self.scrollView.layer removeAllAnimations];
+            
+            [self applyGradientMaskForFadeLength:0 enableFade:NO];
+        }
     }
 }
 
