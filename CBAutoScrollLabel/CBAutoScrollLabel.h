@@ -40,13 +40,13 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
+@property (nonatomic, strong, nonnull) UIFont *font;
 @property (nonatomic, copy, nullable) IBInspectable NSString *text;
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
 @property (nonatomic, strong, nonnull) IBInspectable UIColor *textColor;
-@property (nonatomic, strong, nonnull) UIFont *font;
+@property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 @property (nonatomic, strong, nullable) IBInspectable UIColor *shadowColor;
 @property (nonatomic) CGSize shadowOffset;
-@property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
