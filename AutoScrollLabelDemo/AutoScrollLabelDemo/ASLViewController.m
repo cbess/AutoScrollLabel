@@ -24,6 +24,7 @@
     // setup the auto scroll label
     self.autoScrollLabel.text = @"This text may be clipped, but now it will be scrolled. This text will be scrolled even after device rotation.";
     self.autoScrollLabel.textColor = [UIColor blueColor];
+    self.autoScrollLabel.backgroundColor = [UIColor clearColor];
     self.autoScrollLabel.labelSpacing = 30; // distance between start and end labels
     self.autoScrollLabel.pauseInterval = 1.7; // seconds of pause before scrolling starts again
     self.autoScrollLabel.scrollSpeed = 30; // pixels per second
