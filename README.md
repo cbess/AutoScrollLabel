@@ -31,8 +31,8 @@ autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 
 
 ![app](http://static.solatunes.com//images/app/app-stage.jpg)
 
-[Sola Tunes App (Free)](http://www.solatunes.com/app)
+[Sola Tunes iOS App (Free)](https://itunes.apple.com/us/app/sola-tunes-free-music-for-all/id554537542?mt=8)
 
 #### License
 
-MIT - Copyright (c) 2013 Christopher Bess
+MIT - Copyright (c) 2017 Christopher Bess
