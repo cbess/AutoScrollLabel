@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-@property (nonatomic) CGFloat fadeLength; // defaults to 7
+@property (nonatomic) IBInspectable CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
 @property (nonatomic, strong, nonnull) UIFont *font;
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
 @property (nonatomic, strong, nullable) IBInspectable UIColor *shadowColor;
 
-@property (nonatomic) CGSize shadowOffset;
+@property (nonatomic) IBInspectable CGSize shadowOffset;
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
