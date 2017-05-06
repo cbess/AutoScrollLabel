@@ -37,6 +37,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
+
 IB_DESIGNABLE
 @implementation CBAutoScrollLabel
 
@@ -86,7 +87,6 @@ IB_DESIGNABLE
     self.clipsToBounds = YES;
     self.fadeLength = kDefaultFadeLength;
 }
-
 
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
