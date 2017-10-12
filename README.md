@@ -1,4 +1,4 @@
-##AutoScrollLabel
+## AutoScrollLabel
 
 A UILabel with auto scrolling for text that may be clipped by the view. Provides edge fading, speed adjustment, scroll direction, etc.  
 
@@ -31,20 +31,8 @@ autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 
 
 ![app](http://static.solatunes.com//images/app/app-stage.jpg)
 
-[Sola Tunes App (Free)](http://www.solatunes.com/app)
+[Sola Tunes iOS App (Free)](https://itunes.apple.com/us/app/sola-tunes-free-music-for-all/id554537542?mt=8)
 
 #### License
 
-MIT - Copyright (c) 2013 Christopher Bess
-
-#### Modifications by Ludvig Eriksson
-
-- Ability to offset the label horizontally. 
-For example, if used in a navigation bar with bar button items on the side, 
-the label might be shifted horizontally if it's not big enough to scroll.
-The property horizontalOffset can now be used to shift it back. If, however, 
-this back shift would mean the label needs scrolling, it's ignored (i.e. 
-only enable scrolling as a last resort).
-
-- Added scrollingNeeded property to be able to see if the label fits or
-if it needs scrolling.
+MIT - Copyright (c) 2017 Christopher Bess
