@@ -325,7 +325,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     });
 
     // Set the horizontal offset only if the label fits with it
-    if (CGRectGetWidth(self.mainLabel.bounds) + (self.horizontalOffset * 2) < CGRectGetWidth(self.bounds)) {
+    if (CGRectGetWidth(self.mainLabel.bounds) + fabs(self.horizontalOffset * 2) < CGRectGetWidth(self.bounds)) {
         self.scrollView.contentOffset = CGPointMake(self.horizontalOffset, 0);
     } else {
         self.scrollView.contentOffset = CGPointZero;

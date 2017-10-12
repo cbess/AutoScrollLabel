@@ -22,9 +22,6 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
-// ---------------------------------------------
-// Additions by Ludvig Eriksson
-
 /**
  * Returns YES if the text doesn't fit and scrolling is needed, NO if text is within bounds.
  */
@@ -32,14 +29,12 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 
 /**
  * Adjusts the horizontal offset of the text. Use for example if the label should be centered
- * but is left shifted by bar button items.
+ * in a navigation bar but is left shifted by bar button items.
  *
  * The value will be ignored if it means the label won't fit after the offset is applied,
- * i.e. the label will be shifted, and scrolling will only be enabled as a last resort.
+ * i.e. the label will attempt to be shifted, but scrolling will be enabled as a last resort.
  */
 @property (nonatomic) CGFloat horizontalOffset;
-
-// ---------------------------------------------
 
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 /// Scroll speed in pixels per second, defaults to 30
