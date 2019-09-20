@@ -47,7 +47,7 @@
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="BZs-Na-law"/>
                         <view key="titleView" contentMode="scaleToFill" id="cVi-6H-3sM" customClass="CBAutoScrollLabel">
-                            <rect key="frame" x="112.66666666666669" y="5.6666666666666679" width="150" height="33"/>
+                            <rect key="frame" x="113" y="6" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>

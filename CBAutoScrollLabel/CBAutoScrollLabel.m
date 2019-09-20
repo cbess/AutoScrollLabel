@@ -38,7 +38,6 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 @end
 
-IB_DESIGNABLE
 @implementation CBAutoScrollLabel
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -63,8 +62,7 @@ IB_DESIGNABLE
         UILabel *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
         label.autoresizingMask = self.autoresizingMask;
-        // Placeholder text for IB_DESIGNABLE in Storyboards
-        label.text = @"AutoScrollLabel";
+        
         // store labels
         [self.scrollView addSubview:label];
         [labelSet addObject:label];
@@ -77,7 +75,11 @@ IB_DESIGNABLE
     _scrollSpeed = kDefaultPixelsPerSecond;
     self.pauseInterval = kDefaultPauseTime;
     self.labelSpacing = kDefaultLabelBufferSpace;
+#if TARGET_INTERFACE_BUILDER
+    self.textAlignment = NSTextAlignmentCenter;
+#else
     self.textAlignment = NSTextAlignmentLeft;
+#endif
     self.animationOptions = UIViewAnimationOptionCurveLinear;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -91,6 +93,12 @@ IB_DESIGNABLE
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)prepareForInterfaceBuilder {
+    [super prepareForInterfaceBuilder];
+    
+    self.text = @"AutoScrollLabel";
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -200,7 +208,7 @@ IB_DESIGNABLE
     return self.mainLabel.font;
 }
 
-- (void)setScrollSpeed:(float)speed {
+- (void)setScrollSpeed:(CGFloat)speed {
     _scrollSpeed = speed;
 
     [self scrollLabelIfNeeded];

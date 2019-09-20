@@ -20,13 +20,14 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
     CBAutoScrollDirectionLeft
 };
 
+IB_DESIGNABLE
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 /// Scroll speed in pixels per second, defaults to 30
-@property (nonatomic) float scrollSpeed;
+@property (nonatomic) IBInspectable CGFloat scrollSpeed;
 @property (nonatomic) NSTimeInterval pauseInterval; // defaults to 1.5
-@property (nonatomic) NSInteger labelSpacing; // pixels, defaults to 20
+@property (nonatomic) IBInspectable NSInteger labelSpacing; // pixels, defaults to 20
 
 /**
  * The animation options used when scrolling the UILabels.
@@ -41,7 +42,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) IBInspectable CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
-@property (nonatomic, strong, nonnull) UIFont *font;
+@property (nonatomic, strong, nonnull) IBInspectable UIFont *font;
 @property (nonatomic, copy, nullable) IBInspectable NSString *text;
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
 @property (nonatomic, strong, nonnull) IBInspectable UIColor *textColor;
