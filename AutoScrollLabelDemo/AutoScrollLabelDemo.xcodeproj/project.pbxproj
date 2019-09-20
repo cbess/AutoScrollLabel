@@ -23,6 +23,7 @@
 /* Begin PBXFileReference section */
 		1A7764852335346300BDB8A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1A7764862335346300BDB8A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1A77648723354B3D00BDB8A0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1E6EE5B815991EDE00F94499 /* AutoScrollLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoScrollLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E6EE5BC15991EDE00F94499 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1E6EE5BE15991EDE00F94499 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +59,7 @@
 		1E6EE5AD15991EDD00F94499 = {
 			isa = PBXGroup;
 			children = (
+				1A77648723354B3D00BDB8A0 /* README.md */,
 				1E6EE5C215991EDE00F94499 /* AutoScrollLabelDemo */,
 				1E6EE5BB15991EDE00F94499 /* Frameworks */,
 				1E6EE5B915991EDE00F94499 /* Products */,
