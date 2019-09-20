@@ -32,7 +32,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 @interface CBAutoScrollLabel ()
 
-@property (nonatomic, strong) NSArray *labels;
+@property (nonatomic, strong) NSArray<UILabel *> *labels;
 @property (nonatomic, strong, readonly) UILabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
@@ -56,7 +56,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)commonInit {
     // create the labels
-    NSMutableSet *labelSet = [[NSMutableSet alloc] initWithCapacity:kLabelCount];
+    NSMutableSet<UILabel *> *labelSet = [[NSMutableSet alloc] initWithCapacity:kLabelCount];
 
     for (int index = 0; index < kLabelCount; ++index) {
         UILabel *label = [[UILabel alloc] init];
@@ -135,7 +135,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (UILabel *)mainLabel {
-    return self.labels[0];
+    return [self.labels firstObject];
 }
 
 - (void)setText:(NSString *)theText {
@@ -288,7 +288,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
          // adjust offset
          self.scrollView.contentOffset = (doScrollLeft ? CGPointMake(labelWidth + self.labelSpacing, 0) : CGPointZero);
      } completion:^(BOOL finished) {
-         _scrolling = NO;
+         self->_scrolling = NO;
 
          // remove the left shadow
          [self applyGradientMaskForFadeLength:self.fadeLength enableFade:NO];
