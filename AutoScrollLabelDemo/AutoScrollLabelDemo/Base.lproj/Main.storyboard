@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="2aA-IC-rYH">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -16,17 +16,17 @@
                         <viewControllerLayoutGuide type="bottom" id="g1p-gt-gOc"/>
                     </layoutGuides>
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="eDd-wf-uuK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="No scrolling here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="uUq-eg-6Qz">
-                                <rect key="frame" x="21" y="131" width="333" height="21"/>
+                                <rect key="frame" x="21" y="219" width="333" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bYm-Ms-nJx" customClass="CBAutoScrollLabel">
-                                <rect key="frame" x="21" y="41" width="333" height="45"/>
+                                <rect key="frame" x="21" y="129" width="333" height="45"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="VI5-wb-x03"/>
@@ -43,11 +43,11 @@
                             <constraint firstItem="uUq-eg-6Qz" firstAttribute="top" secondItem="bYm-Ms-nJx" secondAttribute="bottom" constant="45" id="lUv-QH-4N3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="qkc-jm-XpV">
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="qkc-jm-XpV">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="edit" id="BZs-Na-law"/>
                         <view key="titleView" contentMode="scaleToFill" id="cVi-6H-3sM" customClass="CBAutoScrollLabel">
-                            <rect key="frame" x="112.5" y="5.5" width="150" height="33"/>
+                            <rect key="frame" x="112.66666666666669" y="5.6666666666666679" width="150" height="33"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
@@ -68,8 +68,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2aA-IC-rYH" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="itG-lC-l6C">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="itG-lC-l6C">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -27,6 +27,8 @@ autoScrollLabel.textAlignment = NSTextAlignmentCenter; // centers text when no a
 autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 to disable
 ```
 
+[Soli Deo gloria](https://perfectGod.com)
+
 #### Real world use:
 
 ![app](http://static.solatunes.com//images/app/app-stage.jpg)
