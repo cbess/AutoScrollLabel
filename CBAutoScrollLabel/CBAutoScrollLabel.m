@@ -38,6 +38,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 @end
 
+IB_DESIGNABLE
 @implementation CBAutoScrollLabel
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -62,7 +63,8 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
         UILabel *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
         label.autoresizingMask = self.autoresizingMask;
-
+        // Placeholder text for IB_DESIGNABLE in Storyboards
+        label.text = @"AutoScrollLabel";
         // store labels
         [self.scrollView addSubview:label];
         [labelSet addObject:label];
