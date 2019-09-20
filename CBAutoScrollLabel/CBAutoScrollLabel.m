@@ -62,7 +62,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
         UILabel *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
         label.autoresizingMask = self.autoresizingMask;
-
+        
         // store labels
         [self.scrollView addSubview:label];
         [labelSet addObject:label];
@@ -75,7 +75,11 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     _scrollSpeed = kDefaultPixelsPerSecond;
     self.pauseInterval = kDefaultPauseTime;
     self.labelSpacing = kDefaultLabelBufferSpace;
+#if TARGET_INTERFACE_BUILDER
+    self.textAlignment = NSTextAlignmentCenter;
+#else
     self.textAlignment = NSTextAlignmentLeft;
+#endif
     self.animationOptions = UIViewAnimationOptionCurveLinear;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -89,6 +93,12 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 - (void)dealloc {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)prepareForInterfaceBuilder {
+    [super prepareForInterfaceBuilder];
+    
+    self.text = @"AutoScrollLabel";
 }
 
 - (void)setFrame:(CGRect)frame {
@@ -198,7 +208,7 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     return self.mainLabel.font;
 }
 
-- (void)setScrollSpeed:(float)speed {
+- (void)setScrollSpeed:(CGFloat)speed {
     _scrollSpeed = speed;
 
     [self scrollLabelIfNeeded];

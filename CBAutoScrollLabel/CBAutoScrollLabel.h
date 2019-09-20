@@ -20,13 +20,14 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
     CBAutoScrollDirectionLeft
 };
 
+IB_DESIGNABLE
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 /// Scroll speed in pixels per second, defaults to 30
-@property (nonatomic) float scrollSpeed;
+@property (nonatomic) IBInspectable CGFloat scrollSpeed;
 @property (nonatomic) NSTimeInterval pauseInterval; // defaults to 1.5
-@property (nonatomic) NSInteger labelSpacing; // pixels, defaults to 20
+@property (nonatomic) IBInspectable NSInteger labelSpacing; // pixels, defaults to 20
 
 /**
  * The animation options used when scrolling the UILabels.
@@ -38,16 +39,17 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-@property (nonatomic) CGFloat fadeLength; // defaults to 7
+@property (nonatomic) IBInspectable CGFloat fadeLength; // defaults to 7
 
 // UILabel properties
-@property (nonatomic, strong, nonnull) UIFont *font;
-@property (nonatomic, copy, nullable) NSString *text;
+@property (nonatomic, strong, nonnull) IBInspectable UIFont *font;
+@property (nonatomic, copy, nullable) IBInspectable NSString *text;
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
-@property (nonatomic, strong, nonnull) UIColor *textColor;
+@property (nonatomic, strong, nonnull) IBInspectable UIColor *textColor;
 @property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
-@property (nonatomic, strong, nullable) UIColor *shadowColor;
-@property (nonatomic) CGSize shadowOffset;
+@property (nonatomic, strong, nullable) IBInspectable UIColor *shadowColor;
+
+@property (nonatomic) IBInspectable CGSize shadowOffset;
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
