@@ -25,6 +25,7 @@
 		1A7764852335346300BDB8A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1A7764862335346300BDB8A0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A77648723354B3D00BDB8A0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		1ADD1C86307C06B400C4FA67 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Package.swift; path = ../Package.swift; sourceTree = SOURCE_ROOT; };
 		1AF30710307BCE5300A71E90 /* ASLSceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ASLSceneDelegate.h; sourceTree = "<group>"; };
 		1AF30711307BCE5700A71E90 /* ASLSceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASLSceneDelegate.m; sourceTree = "<group>"; };
 		1E6EE5B815991EDE00F94499 /* AutoScrollLabelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoScrollLabelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +64,9 @@
 			isa = PBXGroup;
 			children = (
 				1A77648723354B3D00BDB8A0 /* README.md */,
+				1ADD1C86307C06B400C4FA67 /* Package.swift */,
 				1E6EE5C215991EDE00F94499 /* AutoScrollLabelDemo */,
+				92BA4B2F16E4636F00770787 /* CBAutoScrollLabel */,
 				1E6EE5BB15991EDE00F94499 /* Frameworks */,
 				1E6EE5B915991EDE00F94499 /* Products */,
 			);
@@ -91,7 +94,6 @@
 		1E6EE5C215991EDE00F94499 /* AutoScrollLabelDemo */ = {
 			isa = PBXGroup;
 			children = (
-				92BA4B2F16E4636F00770787 /* CBAutoScrollLabel */,
 				1E6EE5CB15991EDE00F94499 /* ASLAppDelegate.h */,
 				1E6EE5CC15991EDE00F94499 /* ASLAppDelegate.m */,
 				1E6EE5CE15991EDE00F94499 /* ASLViewController.h */,
@@ -123,7 +125,7 @@
 				92BA4B3116E4636F00770787 /* CBAutoScrollLabel.m */,
 			);
 			name = CBAutoScrollLabel;
-			path = ../../CBAutoScrollLabel;
+			path = ../CBAutoScrollLabel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
