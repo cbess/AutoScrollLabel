@@ -5,7 +5,7 @@ A `UILabel` with auto scrolling for text that may be clipped by the view. Provid
 ![screenshot](https://github.com/cbess/AutoScrollLabel/raw/master/AutoScrollLabelDemo/screenshot.png)
 ![screenshot2](https://github.com/cbess/AutoScrollLabel/raw/master/AutoScrollLabelDemo/screenshot2.png)
 
-iOS 12, tvOS 12 and greater. For Non-ARC use v0.2.1.
+iOS 12, tvOS 12 and greater.
 
 ### Installation
 
@@ -30,9 +30,6 @@ Then add `"AutoScrollLabel"` to your target's dependencies.
 ### Usage
 
 ```objc
-// cocoapods
-#import <AutoScrollLabel/CBAutoScrollLabel.h>
-
 // swift package manager
 @import AutoScrollLabel;
 ```
