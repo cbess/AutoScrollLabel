@@ -51,8 +51,9 @@ autoScrollLabel.fadeLength = 12.f; // length of the left and right edge fade, 0 
 [Soli Deo gloria](https://perfectGod.com)
 
 #### Real world use:
-[Sola Tunes iOS App (Free)](https://apps.apple.com/us/app/sola-tunes-music-for-all/id554537542)
+[Sola Tunes iOS App (Free)](https://apps.apple.com/us/app/sola-tunes-music-for-all/id554537542)  
 [VerseCloud (Free)](https://apps.apple.com/us/app/versecloud-bible-study-tool/id1092932080)
+
 #### License
 
 MIT - Copyright (c) 2019 Christopher Bess
