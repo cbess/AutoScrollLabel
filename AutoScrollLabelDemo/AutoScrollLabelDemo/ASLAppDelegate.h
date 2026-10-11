@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class ASLViewController;
-
 @interface ASLAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
-
-@property (strong, nonatomic) ASLViewController *viewController;
 
 @end

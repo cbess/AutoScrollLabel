@@ -37,11 +37,7 @@
     self.navigationBarScrollLabel.text = @"Navigation Bar Title... Scrolling... And scrolling.";
     self.navigationBarScrollLabel.pauseInterval = 3.f;
     self.navigationBarScrollLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-    if (@available(iOS 13.0, *)) {
-        self.navigationBarScrollLabel.textColor = [UIColor labelColor];
-    } else {
-        self.navigationBarScrollLabel.textColor = [UIColor blackColor];
-    }
+    self.navigationBarScrollLabel.textColor = [UIColor labelColor];
     [self.navigationBarScrollLabel observeApplicationNotifications];
 }
 
