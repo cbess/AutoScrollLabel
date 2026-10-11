@@ -16,17 +16,26 @@
 
 /// Specifies the direction of the scroll
 typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
+    /// Scrolls the text from left to right.
     CBAutoScrollDirectionRight,
+    /// Scrolls the text from right to left. This is the default direction.
     CBAutoScrollDirectionLeft
 };
 
+/**
+ * A UIView that behaves like a UILabel, except it automatically scrolls its text
+ * horizontally whenever the text does not fit within the view's bounds.
+ */
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
+/// The direction the text scrolls in, defaults to CBAutoScrollDirectionLeft.
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
 /// Scroll speed in pixels per second, defaults to 30
 @property (nonatomic) float scrollSpeed;
-@property (nonatomic) NSTimeInterval pauseInterval; // defaults to 1.5
-@property (nonatomic) NSInteger labelSpacing; // pixels, defaults to 20
+/// The amount of time, in seconds, the label pauses before/after each scroll, defaults to 1.5.
+@property (nonatomic) NSTimeInterval pauseInterval;
+/// The spacing, in pixels, between the end of the text and the start of its repeated copy, defaults to 20.
+@property (nonatomic) NSInteger labelSpacing;
 
 /**
  * The animation options used when scrolling the UILabels.
@@ -38,15 +47,23 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-@property (nonatomic) CGFloat fadeLength; // defaults to 7
+/// The length, in points, of the fade gradient applied to the leading/trailing edges while scrolling, defaults to 7.
+@property (nonatomic) CGFloat fadeLength;
 
 // UILabel properties
+/// The font used to render the text.
 @property (nonatomic, strong, nonnull) UIFont *font;
+/// The text displayed by the label.
 @property (nonatomic, copy, nullable) NSString *text;
+/// The styled text displayed by the label.
 @property (nonatomic, copy, nullable) NSAttributedString *attributedText;
+/// The color of the text.
 @property (nonatomic, strong, nonnull) UIColor *textColor;
-@property (nonatomic) NSTextAlignment textAlignment; // only applies when not auto-scrolling
+/// The alignment of the text, only applies when not auto-scrolling.
+@property (nonatomic) NSTextAlignment textAlignment;
+/// The color of the text's shadow.
 @property (nonatomic, strong, nullable) UIColor *shadowColor;
+/// The offset of the text's shadow.
 @property (nonatomic) CGSize shadowOffset;
 
 /**
@@ -58,11 +75,15 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 /**
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
+ * @param text The text to display in the label.
+ * @param refresh Pass YES to lay out and refresh the scrolling labels after setting the text.
  */
 - (void)setText:(nullable NSString *)text refreshLabels:(BOOL)refresh;
 
 /**
  Set the attributed text and refresh labels, if needed.
+ * @param theText The attributed text to display in the label.
+ * @param refresh Pass YES to lay out and refresh the scrolling labels after setting the text.
  */
 - (void)setAttributedText:(nullable NSAttributedString *)theText refreshLabels:(BOOL)refresh;
 
