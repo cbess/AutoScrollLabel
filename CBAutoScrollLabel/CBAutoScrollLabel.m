@@ -35,6 +35,12 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 @property (nonatomic, strong) NSArray<UILabel *> *labels;
 @property (nonatomic, strong, readonly) UILabel *mainLabel;
 @property (nonatomic, strong) UIScrollView *scrollView;
+// monotonically increasing token identifying the current scroll cycle; never reset, only
+// incremented, so scheduleBlock:afterDelay:generation: can detect and ignore stale callbacks.
+// unsigned overflow is well-defined (wraps to 0) and still yields a value distinct
+// from any in-flight generation, so no overflow guard is needed; reaching NSUIntegerMax would
+// also take many years of continous scrolling at one increment per scroll cycle
+@property (nonatomic) NSUInteger scrollGeneration;
 
 @end
 
@@ -56,19 +62,20 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)commonInit {
     // create the labels
-    NSMutableSet<UILabel *> *labelSet = [[NSMutableSet alloc] initWithCapacity:kLabelCount];
+    NSMutableArray<UILabel *> *labels = [[NSMutableArray alloc] initWithCapacity:kLabelCount];
 
     for (int index = 0; index < kLabelCount; ++index) {
         UILabel *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
         label.autoresizingMask = self.autoresizingMask;
+        label.isAccessibilityElement = NO;
 
         // store labels
         [self.scrollView addSubview:label];
-        [labelSet addObject:label];
+        [labels addObject:label];
     }
 
-    self.labels = [labelSet.allObjects copy];
+    self.labels = [labels copy];
 
     // default values
     _scrollDirection = CBAutoScrollDirectionLeft;
@@ -84,10 +91,10 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     self.backgroundColor = [UIColor clearColor];
     self.clipsToBounds = YES;
     self.fadeLength = kDefaultFadeLength;
+    self.isAccessibilityElement = YES;
 }
 
 - (void)dealloc {
-    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -144,13 +151,15 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)setText:(NSString *)theText refreshLabels:(BOOL)refresh {
     // ignore identical text changes
-    if ([theText isEqualToString:self.text])
+    if ([theText isEqualToString:self.text]) {
         return;
+    }
 
     EACH_LABEL(text, theText)
 
-    if (refresh)
+    if (refresh) {
         [self refreshLabels];
+    }
 }
 
 - (NSString *)text {
@@ -163,13 +172,15 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)setAttributedText:(NSAttributedString *)theText refreshLabels:(BOOL)refresh {
     // ignore identical text changes
-    if ([theText.string isEqualToString:self.attributedText.string])
+    if ([theText.string isEqualToString:self.attributedText.string]) {
         return;
+    }
 
     EACH_LABEL(attributedText, theText)
 
-    if (refresh)
+    if (refresh) {
         [self refreshLabels];
+    }
 }
 
 - (NSAttributedString *)attributedText {
@@ -185,8 +196,9 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)setFont:(UIFont *)font {
-    if (self.mainLabel.font == font)
+    if (self.mainLabel.font == font) {
         return;
+    }
 
     EACH_LABEL(font, font)
 
@@ -210,6 +222,14 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     [self scrollLabelIfNeeded];
 }
 
+- (NSInteger)scrollDirectionValue {
+    return self.scrollDirection;
+}
+
+- (void)setScrollDirectionValue:(NSInteger)scrollDirectionValue {
+    self.scrollDirection = (CBAutoScrollDirection)scrollDirectionValue;
+}
+
 - (void)setShadowColor:(UIColor *)color {
     EACH_LABEL(shadowColor, color)
 }
@@ -230,6 +250,47 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (CGSize)intrinsicContentSize {
     return CGSizeMake(0, [self.mainLabel intrinsicContentSize].height);
+}
+
+#pragma mark - Accessibility
+
+- (NSString *)accessibilityLabel {
+    return self.text;
+}
+
+- (UIAccessibilityTraits)accessibilityTraits {
+    return [super accessibilityTraits] | UIAccessibilityTraitStaticText;
+}
+
+#pragma mark - Scheduling
+
+// invokes action on the main queue after delay; safely no-ops if the receiver has
+// already been deallocated by the time the block runs
+- (void)scheduleBlock:(void (^)(CBAutoScrollLabel *strongSelf))action afterDelay:(NSTimeInterval)delay {
+    __weak typeof(self) weakSelf = self;
+    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
+
+    dispatch_after(when, dispatch_get_main_queue(), ^{
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+
+        if (!strongSelf) {
+            return;
+        }
+
+        action(strongSelf);
+    });
+}
+
+// same as scheduleBlock:afterDelay:, but also no-ops if a newer scroll cycle has
+// started since this block was scheduled
+- (void)scheduleBlock:(void (^)(CBAutoScrollLabel *strongSelf))action afterDelay:(NSTimeInterval)delay generation:(NSUInteger)generation {
+    [self scheduleBlock:^(CBAutoScrollLabel *strongSelf) {
+        if (strongSelf.scrollGeneration != generation) {
+            return;
+        }
+
+        action(strongSelf);
+    } afterDelay:delay];
 }
 
 #pragma mark - Misc
@@ -264,15 +325,16 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)scrollLabelIfNeeded {
-    if (!self.text.length)
+    if (!self.text.length) {
         return;
+    }
 
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
-    if (labelWidth <= CGRectGetWidth(self.bounds))
+    if (labelWidth <= CGRectGetWidth(self.bounds)) {
         return;
+    }
 
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLabelIfNeeded) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(enableShadow) object:nil];
+    NSUInteger generation = ++self.scrollGeneration;
 
     [self.scrollView.layer removeAllAnimations];
 
@@ -280,7 +342,9 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     self.scrollView.contentOffset = (doScrollLeft ? CGPointZero : CGPointMake(labelWidth + self.labelSpacing, 0));
 
     // Add the left shadow after delay
-    [self performSelector:@selector(enableShadow) withObject:nil afterDelay:self.pauseInterval];
+    [self scheduleBlock:^(CBAutoScrollLabel *strongSelf) {
+        [strongSelf enableShadow];
+    } afterDelay:self.pauseInterval generation:generation];
 
     // animate the scrolling
     NSTimeInterval duration = labelWidth / self.scrollSpeed;
@@ -295,7 +359,9 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
          // setup pause delay/loop
          if (finished) {
-             [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil];
+             [self scheduleBlock:^(CBAutoScrollLabel *strongSelf) {
+                 [strongSelf scrollLabelIfNeeded];
+             } afterDelay:0 generation:generation];
          }
      }];
 }
@@ -384,8 +450,8 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     gradientMask.endPoint = CGPointMake(1, CGRectGetMidY(self.frame));
 
     // setup fade mask colors and location
-    id transparent = (id)[UIColor clearColor].CGColor;
-    id opaque = (id)[UIColor blackColor].CGColor;
+    id transparent = (__bridge id)[UIColor clearColor].CGColor;
+    id opaque = (__bridge id)[UIColor blackColor].CGColor;
     gradientMask.colors = @[transparent, opaque, opaque, transparent];
 
     // calcluate fade
@@ -417,8 +483,14 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 
 - (void)onUIApplicationDidChangeStatusBarOrientationNotification:(NSNotification *)notification {
     // delay to have it re-calculate on next runloop
-    [self performSelector:@selector(refreshLabels) withObject:nil afterDelay:.1f];
-    [self performSelector:@selector(scrollLabelIfNeeded) withObject:nil afterDelay:.1f];
+    [self scheduleBlock:^(CBAutoScrollLabel *strongSelf) {
+        [strongSelf refreshLabels];
+    } afterDelay:.1f];
+
+    NSUInteger generation = self.scrollGeneration;
+    [self scheduleBlock:^(CBAutoScrollLabel *strongSelf) {
+        [strongSelf scrollLabelIfNeeded];
+    } afterDelay:.1f generation:generation];
 }
 
 @end

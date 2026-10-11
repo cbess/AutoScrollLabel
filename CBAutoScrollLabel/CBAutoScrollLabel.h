@@ -23,32 +23,42 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 };
 
 /**
- * A UIView that behaves like a UILabel, except it automatically scrolls its text
+ * A `UIView` that behaves like a UILabel, except it automatically scrolls its text
  * horizontally whenever the text does not fit within the view's bounds.
  */
 @interface CBAutoScrollLabel : UIView <UIScrollViewDelegate>
 
-/// The direction the text scrolls in, defaults to CBAutoScrollDirectionLeft.
+/// The direction the text scrolls in, defaults to `CBAutoScrollDirectionLeft`.
 @property (nonatomic) CBAutoScrollDirection scrollDirection;
+
+/**
+ * Interface Builder bridge for scrollDirection.
+ * @discussion IBInspectable does not support `NS_ENUM` types directly. Set this from
+ * Interface Builder's Attributes Inspector using the raw `CBAutoScrollDirection` value
+ * (0 = CBAutoScrollDirectionRight, 1 = CBAutoScrollDirectionLeft). Code callers should
+ * use `scrollDirection` instead.
+ */
+@property (nonatomic) IBInspectable NSInteger scrollDirectionValue;
+
 /// Scroll speed in pixels per second, defaults to 30
-@property (nonatomic) float scrollSpeed;
+@property (nonatomic) IBInspectable float scrollSpeed;
 /// The amount of time, in seconds, the label pauses before/after each scroll, defaults to 1.5.
-@property (nonatomic) NSTimeInterval pauseInterval;
+@property (nonatomic) IBInspectable NSTimeInterval pauseInterval;
 /// The spacing, in pixels, between the end of the text and the start of its repeated copy, defaults to 20.
-@property (nonatomic) NSInteger labelSpacing;
+@property (nonatomic) IBInspectable NSInteger labelSpacing;
 
 /**
  * The animation options used when scrolling the UILabels.
- * @discussion UIViewAnimationOptionAllowUserInteraction is always applied to the animations.
+ * @discussion `UIViewAnimationOptionAllowUserInteraction` is always applied to the animations.
  */
 @property (nonatomic) UIViewAnimationOptions animationOptions;
 
 /**
- * Returns YES, if it is actively scrolling, NO if it has paused or if text is within bounds (disables scrolling).
+ * Returns `YES`, if it is actively scrolling, `NO` if it has paused or if text is within bounds (disables scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
-/// The length, in points, of the fade gradient applied to the leading/trailing edges while scrolling, defaults to 7.
-@property (nonatomic) CGFloat fadeLength;
+/// The length, in points, of the fade gradient applied to the leading/trailing edges while scrolling, defaults to `7`.
+@property (nonatomic) IBInspectable CGFloat fadeLength;
 
 // UILabel properties
 /// The font used to render the text.
@@ -68,7 +78,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 
 /**
  * Lays out the scrollview contents, enabling text scrolling if the text will be clipped.
- * @discussion Uses [scrollLabelIfNeeded] internally.
+ * @discussion Uses `[scrollLabelIfNeeded]` internally.
  */
 - (void)refreshLabels;
 
@@ -76,14 +86,14 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * Set the text to the label and refresh labels, if needed.
  * @discussion Useful when you have a situation where you need to layout the scroll label after it's text is set.
  * @param text The text to display in the label.
- * @param refresh Pass YES to lay out and refresh the scrolling labels after setting the text.
+ * @param refresh Pass `YES` to lay out and refresh the scrolling labels after setting the text.
  */
 - (void)setText:(nullable NSString *)text refreshLabels:(BOOL)refresh;
 
 /**
  Set the attributed text and refresh labels, if needed.
  * @param theText The attributed text to display in the label.
- * @param refresh Pass YES to lay out and refresh the scrolling labels after setting the text.
+ * @param refresh Pass `YES` to lay out and refresh the scrolling labels after setting the text.
  */
 - (void)setAttributedText:(nullable NSAttributedString *)theText refreshLabels:(BOOL)refresh;
 
