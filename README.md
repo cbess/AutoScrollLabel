@@ -30,11 +30,12 @@ Then add `"AutoScrollLabel"` to your target's dependencies.
 ### Usage
 
 ```objc
-// swift package manager
+// objc
 @import AutoScrollLabel;
 ```
 
 ```swift
+// swift
 import AutoScrollLabel
 ```
     
