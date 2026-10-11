@@ -361,54 +361,56 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 - (void)applyGradientMaskForFadeLength:(CGFloat)fadeLength enableFade:(BOOL)fade {
     CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
 
-    if (labelWidth <= CGRectGetWidth(self.bounds))
+    if (labelWidth <= CGRectGetWidth(self.bounds)) {
         fadeLength = 0;
+    }
 
-    if (fadeLength) {
-        // Recreate gradient mask with new fade length
-        CAGradientLayer *gradientMask = [CAGradientLayer layer];
-
-        gradientMask.bounds = self.layer.bounds;
-        gradientMask.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-
-        gradientMask.shouldRasterize = YES;
-        gradientMask.rasterizationScale = [UIScreen mainScreen].scale;
-
-        gradientMask.startPoint = CGPointMake(0, CGRectGetMidY(self.frame));
-        gradientMask.endPoint = CGPointMake(1, CGRectGetMidY(self.frame));
-
-        // setup fade mask colors and location
-        id transparent = (id)[UIColor clearColor].CGColor;
-        id opaque = (id)[UIColor blackColor].CGColor;
-        gradientMask.colors = @[transparent, opaque, opaque, transparent];
-
-        // calcluate fade
-        CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
-        NSNumber *leftFadePoint = @(fadePoint);
-        NSNumber *rightFadePoint = @(1 - fadePoint);
-        if (!fade) switch (self.scrollDirection) {
-                case CBAutoScrollDirectionLeft:
-                    leftFadePoint = @0;
-                    break;
-
-                case CBAutoScrollDirectionRight:
-                    leftFadePoint = @0;
-                    rightFadePoint = @1;
-                    break;
-            }
-
-        // apply calculations to mask
-        gradientMask.locations = @[@0, leftFadePoint, rightFadePoint, @1];
-
-        // don't animate the mask change
-        [CATransaction begin];
-        [CATransaction setDisableActions:YES];
-        self.layer.mask = gradientMask;
-        [CATransaction commit];
-    } else {
+    if (!fadeLength) {
         // Remove gradient mask for 0.0f length fade length
         self.layer.mask = nil;
+        return;
     }
+    
+    // Recreate gradient mask with new fade length
+    CAGradientLayer *gradientMask = [CAGradientLayer layer];
+
+    gradientMask.bounds = self.layer.bounds;
+    gradientMask.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+
+    gradientMask.shouldRasterize = YES;
+    gradientMask.rasterizationScale = [UIScreen mainScreen].scale;
+
+    gradientMask.startPoint = CGPointMake(0, CGRectGetMidY(self.frame));
+    gradientMask.endPoint = CGPointMake(1, CGRectGetMidY(self.frame));
+
+    // setup fade mask colors and location
+    id transparent = (id)[UIColor clearColor].CGColor;
+    id opaque = (id)[UIColor blackColor].CGColor;
+    gradientMask.colors = @[transparent, opaque, opaque, transparent];
+
+    // calcluate fade
+    CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
+    NSNumber *leftFadePoint = @(fadePoint);
+    NSNumber *rightFadePoint = @(1 - fadePoint);
+    if (!fade) switch (self.scrollDirection) {
+            case CBAutoScrollDirectionLeft:
+                leftFadePoint = @0;
+                break;
+
+            case CBAutoScrollDirectionRight:
+                leftFadePoint = @0;
+                rightFadePoint = @1;
+                break;
+        }
+
+    // apply calculations to mask
+    gradientMask.locations = @[@0, leftFadePoint, rightFadePoint, @1];
+
+    // don't animate the mask change
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    self.layer.mask = gradientMask;
+    [CATransaction commit];
 }
 
 #pragma mark - Notifications
