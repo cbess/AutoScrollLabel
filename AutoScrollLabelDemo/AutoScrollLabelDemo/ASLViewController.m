@@ -42,7 +42,7 @@
 }
 
 - (IBAction)resetScrollingTapped:(id)sender {
-    [self.autoScrollLabel resetScrolling];
+    [self.autoScrollLabel resetScrollingAnimated:YES];
 }
 
 @end

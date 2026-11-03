@@ -19,6 +19,8 @@
 #define kDefaultLabelBufferSpace 20
 #define kDefaultPixelsPerSecond 30
 #define kDefaultPauseTime 1.5f
+// duration of the animated return to the starting position
+#define kDefaultResetDuration .3f
 
 // shortcut method for NSArray iterations
 static void each_object(NSArray *objects, void (^block)(id object)) {
@@ -99,16 +101,18 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 - (void)setFrame:(CGRect)frame {
+    CGSize oldSize = self.bounds.size;
     [super setFrame:frame];
 
-    [self didChangeFrame];
+    [self didChangeFrameFromSize:oldSize];
 }
 
 // For autolayout
 - (void)setBounds:(CGRect)bounds {
+    CGSize oldSize = self.bounds.size;
     [super setBounds:bounds];
 
-    [self didChangeFrame];
+    [self didChangeFrameFromSize:oldSize];
 }
 
 - (void)didMoveToWindow {
@@ -416,23 +420,57 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
 }
 
 // bounds or frame has been changed
-- (void)didChangeFrame {
+- (void)didChangeFrameFromSize:(CGSize)oldSize {
+    // auto layout passes re-apply the same bounds (ex: when a sibling button changes state), which
+    // would otherwise restart the scroll and cancel any in-flight animation
+    if (CGSizeEqualToSize(oldSize, self.bounds.size)) {
+        return;
+    }
+
     [self refreshLabels];
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
 }
 
-- (void)resetScrolling {
+- (void)resetScrollingAnimated:(BOOL)animated {
     // invalidate any pending callbacks from the current scroll cycle
-    self.scrollGeneration++;
+    NSUInteger generation = ++self.scrollGeneration;
 
-    // stop the in-flight scroll and return to the starting position
+    // capture the on-screen offset before stopping, since removing the animation snaps to its end value
+    CALayer *presentationLayer = self.scrollView.layer.presentationLayer;
+    CGPoint currentOffset = (presentationLayer ? presentationLayer.bounds.origin : self.scrollView.contentOffset);
+
+    // stop the in-flight scroll
     [self.scrollView.layer removeAllAnimations];
     _scrolling = NO;
-    self.scrollView.contentOffset = CGPointZero;
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:NO];
 
-    // restart from the beginning (including the initial pause), if scrolling is needed
-    [self scrollLabelIfNeeded];
+    // the starting position depends on the scroll direction, but only when the text needs to scroll
+    CGPoint startOffset = CGPointZero;
+    CGFloat labelWidth = CGRectGetWidth(self.mainLabel.bounds);
+    if (labelWidth > CGRectGetWidth(self.bounds) && self.scrollDirection == CBAutoScrollDirectionRight) {
+        startOffset = CGPointMake(labelWidth + self.labelSpacing, 0);
+    }
+
+    if (!animated) {
+        self.scrollView.contentOffset = startOffset;
+
+        // restart from the beginning (including the initial pause), if scrolling is needed
+        [self scrollLabelIfNeeded];
+        return;
+    }
+
+    // animate from where the text currently appears back to the starting position
+    self.scrollView.contentOffset = currentOffset;
+    [UIView animateWithDuration:kDefaultResetDuration delay:0 options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction animations:^{
+        self.scrollView.contentOffset = startOffset;
+    } completion:^(BOOL finished) {
+        // ignore if interrupted or a newer scroll cycle has started
+        if (!finished || self.scrollGeneration != generation) {
+            return;
+        }
+
+        [self scrollLabelIfNeeded];
+    }];
 }
 
 #pragma mark - Gradient

@@ -113,7 +113,8 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 /**
  * Stops any scrolling and returns the text to its starting position.
  * @discussion If the text exceeds the bounds, scrolling restarts from the beginning after `pauseInterval`.
+ * @param animated Pass `YES` to animate the text back to its starting position, `NO` to jump there immediately.
  */
-- (void)resetScrolling;
+- (void)resetScrollingAnimated:(BOOL)animated;
 
 @end
