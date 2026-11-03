@@ -41,4 +41,8 @@
     [self.navigationBarScrollLabel observeApplicationNotifications];
 }
 
+- (IBAction)resetScrollingTapped:(id)sender {
+    [self.autoScrollLabel resetScrolling];
+}
+
 @end

@@ -421,6 +421,20 @@ static void each_object(NSArray *objects, void (^block)(id object)) {
     [self applyGradientMaskForFadeLength:self.fadeLength enableFade:self.scrolling];
 }
 
+- (void)resetScrolling {
+    // invalidate any pending callbacks from the current scroll cycle
+    self.scrollGeneration++;
+
+    // stop the in-flight scroll and return to the starting position
+    [self.scrollView.layer removeAllAnimations];
+    _scrolling = NO;
+    self.scrollView.contentOffset = CGPointZero;
+    [self applyGradientMaskForFadeLength:self.fadeLength enableFade:NO];
+
+    // restart from the beginning (including the initial pause), if scrolling is needed
+    [self scrollLabelIfNeeded];
+}
+
 #pragma mark - Gradient
 
 // ref: https://github.com/cbpowell/MarqueeLabel

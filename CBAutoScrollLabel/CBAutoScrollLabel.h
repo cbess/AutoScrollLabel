@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
 @property (nonatomic) UIViewAnimationOptions animationOptions;
 
 /**
- * Returns `YES`, if it is actively scrolling, `NO` if it has paused or if text is within bounds (disables scrolling).
+ * Returns `YES`, if it is actively scrolling, `NO` if it has paused or if text is within bounds (disabled scrolling).
  */
 @property (nonatomic, readonly) BOOL scrolling;
 /// The length, in points, of the fade gradient applied to the leading/trailing edges while scrolling, defaults to `7`.
@@ -109,5 +109,11 @@ typedef NS_ENUM(NSInteger, CBAutoScrollDirection) {
  * register the notifications once.
  */
 - (void)observeApplicationNotifications;
+
+/**
+ * Stops any scrolling and returns the text to its starting position.
+ * @discussion If the text exceeds the bounds, scrolling restarts from the beginning after `pauseInterval`.
+ */
+- (void)resetScrolling;
 
 @end
